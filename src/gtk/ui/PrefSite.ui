@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="PrefSite" parent="AdwPreferencesGroup">
+    <property name="margin-end">10</property>
+    <property name="margin-start">10</property>
+    <child>
+      <object class="AdwExpanderRow">
+        <property name="title" translatable="yes">Site</property>
+        <property name="expanded">true</property>
+        <style>
+          <class name="view-bg"/>
+        </style>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Main Settings</property>
+            <property name="description" translatable="yes">Manage user data related settings</property>
+            <property name="margin-top">10</property>
+            <property name="margin-bottom">10</property>
+            <property name="margin-end">10</property>
+            <property name="margin-start">10</property>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Site Title:*</property>
+                <child type="suffix">
+                  <object class="GtkEntry">
+                    <property name="valign">3</property>
+                    <property name="width-request">200</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Site Url:</property>
+                <property name="tooltip-text" translatable="yes">If you dont have it yet leave blank</property>
+                <child type="suffix">
+                  <object class="GtkEntry">
+                    <property name="valign">3</property>
+                    <property name="placeholder-text" translatable="yes">www.my-site.com</property>
+                    <property name="width-request">200</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Home Page:</property>
+                <child type="suffix">
+                  <object class="GtkDropDown">
+                    <property name="width-request">200</property>
+                    <property name="valign">3</property>
+                    <property name="model">
+                      <object class="GtkStringList" id="list">
+                        <items>
+                          <item>Blog</item>
+                          <item>Wellcome</item>
+                          <item>hippo page</item>
+                          <item>Duck long long long long loong history</item>
+                          <item>Dodo count</item>
+                        </items>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Site Language:</property>
+                <property name="tooltip-text" translatable="yes">The default language of the site</property>
+                <child type="suffix">
+                  <object class="GtkDropDown">
+                    <property name="valign">3</property>
+                    <property name="width-request">80</property>
+                    <property name="model">
+                      <object class="GtkStringList" id="list2">
+                        <items>
+                          <item>en</item>
+                          <item>pt-Br</item>
+                          <item>es</item>
+                          <item>fr</item>
+                        </items>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

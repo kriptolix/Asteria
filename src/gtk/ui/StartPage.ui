@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="StartPage" parent="AdwNavigationPage">
+    <property name="title" translatable="yes">Start Page</property>
+    <property name="child">
+      <object class="GtkBox">
+        <property name="orientation">1</property>
+        <child>
+          <object class="GtkLabel" id="_presentation">
+            <property name="label">Create a new site</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkGridView" id="_grid_view"></object>
+        </child>
+      </object>
+    </property>
+  </template>
+</interface>

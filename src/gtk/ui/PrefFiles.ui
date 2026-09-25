@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="PrefFiles" parent="AdwPreferencesGroup">
+    <property name="margin-start">10</property>
+    <property name="margin-end">10</property>
+    <child>
+      <object class="AdwExpanderRow">
+        <property name="title" translatable="yes">Content</property>
+        <property name="expanded">false</property>
+        <style>
+          <class name="view-bg"/>
+        </style>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Pages and Posts</property>
+            <property name="description" translatable="yes">The buttons below open the directories where you can add, delete, and modify pages and posts.</property>
+            <property name="margin-bottom">10</property>
+            <property name="margin-top">10</property>
+            <property name="margin-end">10</property>
+            <property name="margin-start">10</property>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">1</property>
+                <property name="spacing">10</property>
+                <child>
+                  <object class="GtkButton" id="_add_page">
+                    <property name="label" translatable="yes">Pages</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="_add_post">
+                    <property name="label" translatable="yes">Posts</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Covers</property>
+                    <property name="subtitle" translatable="yes">Some themes allow you to add cover images for posts; when this is the case, use the boutton below</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="_add_cover">
+                    <property name="label" translatable="yes">Covers</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

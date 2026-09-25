@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/io/github/Kriptolix/Asteria">
+    <file compressed="true">data/asteria.css</file>
+    <file preprocess="xml-stripblanks">src/gtk/ui/MainWindow.ui</file>
+    <file preprocess="xml-stripblanks">src/gtk/ui/StartPage.ui</file>
+    <file preprocess="xml-stripblanks">src/gtk/ui/ProjectPage.ui</file>
+    <file preprocess="xml-stripblanks">src/gtk/ui/SiteThumb.ui</file>
+    <file preprocess="xml-stripblanks">src/gtk/ui/Sidebar.ui</file>
+    <file preprocess="xml-stripblanks">src/gtk/ui/PrefSite.ui</file>
+    <file preprocess="xml-stripblanks">src/gtk/ui/PrefTheme.ui</file>
+    <file preprocess="xml-stripblanks">src/gtk/ui/PrefFiles.ui</file>
+    <file preprocess="xml-stripblanks">src/gtk/ui/PrefMenu.ui</file>
+    <file preprocess="xml-stripblanks">src/gtk/ui/PrefNav.ui</file>
+    <file preprocess="xml-stripblanks">src/gtk/ui/shortcuts-dialog.ui</file>    
+  </gresource>
+</gresources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="SiteThumb" parent="GtkBox">
+    <property name="orientation">1</property>
+    <property name="spacing">5</property>
+    <child>
+      <object class="GtkImage" id="_thumb">
+        <property name="icon-name">open-menu-symbolic</property>
+        <property name="pixel-size">128</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkLabel" id="_text">
+        <property name="label">Teste</property>
+      </object>
+    </child>
+  </template>
+</interface>

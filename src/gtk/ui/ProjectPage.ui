@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="ProjectPage" parent="AdwNavigationPage">
+    <property name="title" translatable="yes">Project Page</property>
+    <property name="child">
+      <object class="AdwNavigationSplitView" id="_project_view">
+        <property name="min-sidebar-width">350</property>
+        <property name="sidebar">
+          <object class="Sidebar">            
+          </object>
+        </property>
+        <property name="content">
+          <object class="AdwNavigationPage">
+            <property name="title" translatable="yes">Content</property>
+            <property name="tag">content</property>
+            <property name="child">
+              <object class="AdwNavigationView" id="_content_view"></object>
+            </property>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>

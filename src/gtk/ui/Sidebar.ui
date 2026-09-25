@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="Sidebar" parent="AdwNavigationPage">
+    <property name="title" translatable="yes">Sidebar</property>
+    <property name="width-request">400</property>
+    <child>
+      <object class="AdwPreferencesPage">
+        <child>
+          <object class="PrefSite"></object>
+        </child>
+        <child>
+          <object class="PrefTheme"></object>
+        </child>
+        <child>
+          <object class="PrefFiles"></object>
+        </child>
+        <child>
+          <object class="PrefMenu"></object>
+        </child>
+        <child>
+          <object class="PrefNav"></object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

@@ -1,0 +1,8 @@
+# List of source files containing translatable strings.
+# Please keep this file sorted alphabetically.
+data/io.github.Kriptolix.Asteria.desktop.in
+data/io.github.Kriptolix.Asteria.metainfo.xml.in
+data/io.github.Kriptolix.Asteria.gschema.xml
+src/main.py
+src/window.py
+src/window.ui

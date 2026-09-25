@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="PrefTheme" parent="AdwPreferencesGroup">
+    <property name="margin-start">10</property>
+    <property name="margin-end">10</property>
+    <child>
+      <object class="AdwExpanderRow">
+        <property name="title" translatable="yes">Theme</property>
+        <property name="expanded">true</property>
+        <style>
+          <class name="view-bg"/>
+        </style>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Theme Settings</property>
+            <property name="description" translatable="yes">Manage theme related settings</property>
+            <property name="margin-bottom">10</property>
+            <property name="margin-top">10</property>
+            <property name="margin-end">10</property>
+            <property name="margin-start">10</property>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Theme:</property>
+                <child type="suffix">
+                  <object class="GtkDropDown" id="_themes_dropdown">
+                    <property name="width-request">200</property>
+                    <property name="valign">3</property>
+                    <property name="model">
+                      <object class="GtkStringList">
+                        <items>
+                          <item>Standart</item>
+                          <item>Modern Blog</item>
+                          <item>Wiki Page</item>
+                        </items>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Variant:</property>
+                <child type="suffix">
+                  <object class="GtkDropDown" id="_variant_dropdown">
+                    <property name="width-request">200</property>
+                    <property name="valign">3</property>
+                    <property name="model">
+                      <object class="GtkStringList">
+                        <items>
+                          <item>Light</item>
+                          <item>Dark</item>
+                          <item>Pink</item>
+                        </items>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">1</property>
+                <property name="spacing">20</property>
+                <property name="margin-top">20</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">To configure extra theme keys open theme configuration file.</property>
+                    <property name="wrap">true</property>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="body"/>
+                      <class name="dimmed"/>
+                    </style>
+                    
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="_extra_button">
+                    <property name="label" translatable="yes">Theme configuration file</property>
+                    <property name="valign">3</property>
+                    <property name="halign">3</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">To configure theme translation options open theme translation file.</property>
+                    <property name="wrap">true</property>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="body"/>
+                      <class name="dimmed"/>
+                    </style>
+                    
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="_i18b_button">
+                    <property name="label" translatable="yes">Theme translation file</property>
+                    <property name="valign">3</property>
+                    <property name="halign">3</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

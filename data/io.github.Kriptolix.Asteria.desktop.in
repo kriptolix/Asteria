@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Asteria
+Exec=asteria
+Icon=io.github.Kriptolix.Asteria
+Terminal=false
+Type=Application
+Categories=Utility;
+Keywords=GTK;
+StartupNotify=true
+DBusActivatable=true

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="MenuRow" parent="Adw.ActionRow">
+    <property name="title">placeholder.odt</property>
+    <child type="suffix">
+      <object class="GtkBox">
+        <child>
+          <object class="GtkButton" id="_trash_button">
+            <property name="valign">3</property>
+            <property name="label">+</property>
+            <style>
+              <class name="flat"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkImage">
+            <property name="icon-name">symbolic-trash</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
