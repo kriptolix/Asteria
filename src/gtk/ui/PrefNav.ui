@@ -6,7 +6,7 @@
     <property name="margin-end">10</property>
     <child>
       <object class="AdwExpanderRow">
-        <property name="title" translatable="yes">Site Menu</property>
+        <property name="title" translatable="yes">Navigation</property>
         <property name="expanded">false</property>
         <style>
           <class name="view-bg"/>

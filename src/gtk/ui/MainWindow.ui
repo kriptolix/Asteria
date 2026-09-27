@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk" version="4.0"/>
+  <requires lib="gtk" version="4.0" />
   <template class="MainWindow" parent="AdwApplicationWindow">
     <property name="title" translatable="yes">Asteria</property>
     <property name="default-width">800</property>
@@ -11,8 +11,11 @@
           <object class="AdwHeaderBar">
             <child type="start">
               <object class="GtkButton" id="_back_button">
-                <property name="label">&lt;</property>
+                <property name="icon-name">go-previous-symbolic</property>
                 <property name="visible">false</property>
+                <style>
+                  <class name="flat"/>
+                </style>
               </object>
             </child>
             <child type="end">

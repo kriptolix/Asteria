@@ -2,8 +2,8 @@ from gi.repository import Gtk, Adw
 from gettext import gettext as _
 
 
-@Gtk.Template(resource_path='/io/gitlab/kriptolix'
-              '/Exilium/src/gtk/ui/MessageDialog.ui')
+@Gtk.Template(resource_path='/io/github/Kriptolix/Asteria/'
+              'src/gtk/ui/MessageDialog.ui')
 class MessageDialog(Adw.MessageDialog):
 
     __gtype_name__ = 'MessageDialog'
@@ -58,11 +58,19 @@ class MessageDialog(Adw.MessageDialog):
                 self.set_response_enabled("create", False)
 
         ##
-        self._entry = Gtk.Entry.new()
 
-        self.set_extra_child(self._entry)
+        builder = Gtk.Builder.new_from_resource(
+            '/io/github/Kriptolix/Asteria/src/gtk/ui/DialogCreate.ui'
+        )
 
-        self.buffer = self._entry.get_buffer()
+        self.box = builder.get_object("DialogCreate")
+
+        self.entry_name = builder.get_object("_entry_name") 
+        self.entry_path = builder.get_object("_entry_path")
+
+        self.set_child(self.box)   
+
+        self.buffer = self.entry_name.get_buffer()
 
         self.add_response("cancel",  _("_Cancel"))
         self.add_response("create",    _("_Create"))
@@ -72,10 +80,10 @@ class MessageDialog(Adw.MessageDialog):
 
         self.heading = _("Project Title")
 
-        self._entry.set_input_hints(Gtk.InputHints.NONE)
-        self._entry.set_input_purpose(Gtk.InputPurpose.FREE_FORM)
+        self._name.set_input_hints(Gtk.InputHints.NONE)
+        self._name.set_input_purpose(Gtk.InputPurpose.FREE_FORM)
 
-        self._entry.connect("activate", enter_key_pressed)
+        self._name.connect("activate", enter_key_pressed)
         self.buffer.connect("notify::length", avoid_empty_name)
 
     def _save_project(self):

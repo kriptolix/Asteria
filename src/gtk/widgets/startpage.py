@@ -20,6 +20,8 @@
 from gi.repository import Adw
 from gi.repository import Gtk, Gio, GObject
 
+import os
+
 from src.gtk.widgets.sitethumb import SiteThumb, DataObject
 
 @Gtk.Template(resource_path='/io/github/Kriptolix/Asteria/'
@@ -47,8 +49,10 @@ class StartPage(Adw.NavigationPage):
 
         self._grid_view.set_model(selection)
 
-        v1 = DataObject("entrada 01")
-        v2 = DataObject("entrada 02")
+        path = os.path.join("/app/share/asteria/src", "hyde.png")
+
+        v1 = DataObject("Create a new site", "icon")
+        v2 = DataObject("Outra coisa", path)
         store.append(v1)
         store.append(v2)
 
@@ -70,6 +74,14 @@ class StartPage(Adw.NavigationPage):
         node_widget = item.get_child()
         node_object = item.get_item()
 
-        node_widget._text.props.label = node_object.text        
-
+        node_widget._text.props.label = node_object.text
         node_widget._text.bind_property("label", node_object, "text", flags=GObject.BindingFlags.SYNC_CREATE)
+
+        if node_object.image == "icon":
+            node_widget.set_first_item()
+            return
+
+        node_widget.set_trash_icon()
+        node_widget.set_image(node_object.image)        
+
+        

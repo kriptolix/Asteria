@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="DialogCreate" parent="AdwDialog">
+    <child>
+      <object class="AdwToolbarView" id="toolbar_view">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header_bar">
+            <property name="show-end-title-buttons">false</property>
+            <property name="title-widget">
+              <object class="AdwWindowTitle">
+                <property name="title" translatable="yes">New Site</property>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child type="bottom">
+          <object class="GtkActionBar" id="action_bar">
+            <property name="revealed">true</property>
+            <property name="valign">2</property>
+            <child type="start">
+              <object class="GtkButton" id="_cancel_button">
+                <property name="label" translatable="yes">Cancel</property>
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkButton" id="_create_button">
+                <property name="label" translatable="yes">Create</property>
+                <property name="sensitive">false</property>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="GtkBox">
+            <property name="orientation">1</property>
+            <property name="halign">3</property>
+            <property name="margin-top">10</property>
+            <property name="margin-bottom">10</property>
+            <property name="margin-start">10</property>
+            <property name="margin-end">10</property>
+            <property name="spacing">10</property>
+            <child>
+              <object class="GtkBox">
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Name:</property>
+                    <property name="halign">1</property>                    
+                    <style>
+                      <class name="heading"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="_entry_name">
+                    <property name="halign">2</property>
+                    <property name="hexpand">true</property>
+                    <property name="placeholder-text" translatable="yes">My-Site</property>
+                    <property name="width-request">205</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="spacing">10</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Directory:</property>
+                    <property name="halign">1</property>
+                    <style>
+                      <class name="heading"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="halign">2</property>
+                    <property name="width-request">205</property>
+                    <style>
+                      <class name="linked"/>
+                    </style>
+                    <child>
+                      <object class="GtkEntry" id="_entry_path">
+                        <property name="placeholder-text" translatable="yes">~/Documents/my-site</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="_load_button">
+                        <property name="icon-name">inode-directory-symbolic</property>
+                        <property name="tooltip-text" translatable="yes">Seelec a directory</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

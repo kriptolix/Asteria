@@ -12,6 +12,11 @@
     <file preprocess="xml-stripblanks">src/gtk/ui/PrefFiles.ui</file>
     <file preprocess="xml-stripblanks">src/gtk/ui/PrefMenu.ui</file>
     <file preprocess="xml-stripblanks">src/gtk/ui/PrefNav.ui</file>
+    <file preprocess="xml-stripblanks">src/gtk/ui/MessageDialog.ui</file>
+    <file preprocess="xml-stripblanks">src/gtk/ui/DialogCreate.ui</file>
     <file preprocess="xml-stripblanks">src/gtk/ui/shortcuts-dialog.ui</file>    
+  </gresource>
+  <gresource prefix="/io/github/Kriptolix/Asteria/icons/scalable/actions">
+    <file alias="list-add-symbolic.svg">data/icons/list-add-symbolic.svg</file>    
   </gresource>
 </gresources>

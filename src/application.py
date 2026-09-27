@@ -27,6 +27,7 @@ gi.require_version('Adw', '1')
 
 from gi.repository import Gtk, Gio, Adw
 from src.gtk.widgets.mainwindow import MainWindow
+from src.gtk.widgets.dialgocreate import DialogCreate
 
 class AsteriaApplication(Adw.Application):
     """The main application singleton class."""
@@ -45,10 +46,12 @@ class AsteriaApplication(Adw.Application):
         We raise the application's main window, creating it if
         necessary.
         """
-        win = self.props.active_window
-        if not win:
-            win = MainWindow(application=self)
-        win.present()
+        self.window = self.props.active_window
+        if not self.window:
+            self.window = MainWindow(app=self)
+        self.window.present()
+
+        self.window._navigation_view
 
     def on_about_action(self, *args):
         """Callback for the app.about action."""
@@ -80,6 +83,14 @@ class AsteriaApplication(Adw.Application):
         self.add_action(action)
         if shortcuts:
             self.set_accels_for_action(f"app.{name}", shortcuts)
+
+    def setup_project(self):
+
+        def _create_project(path):
+            pass
+
+        dialog = DialogCreate(self.window, _create_project)
+        dialog.present(self.window)
 
 
 def main(version):

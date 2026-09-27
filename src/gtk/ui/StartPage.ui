@@ -6,13 +6,28 @@
     <property name="child">
       <object class="GtkBox">
         <property name="orientation">1</property>
+        <property name="spacing">20</property>
+        <property name="margin-top">20</property>
+        <property name="margin-bottom">20</property>
+        <property name="margin-start">20</property>
+        <property name="margin-end">20</property>
         <child>
           <object class="GtkLabel" id="_presentation">
-            <property name="label">Create a new site</property>
+            <property name="label">Your Sites</property>
+            <style>
+              <class name="title-1"/>
+            </style>
           </object>
         </child>
         <child>
-          <object class="GtkGridView" id="_grid_view"></object>
+          <object class="GtkGridView" id="_grid_view">
+            <property name="single-click-activate">true</property>
+            <style>
+              <class name="teste"/>
+            </style>
+            <property name="hexpand">true</property>
+            <property name="vexpand">true</property>
+          </object>
         </child>
       </object>
     </property>
