@@ -11,12 +11,9 @@
           </object>
         </property>
         <property name="content">
-          <object class="AdwNavigationPage">
+          <object class="AdwNavigationPage" id="_content_view">
             <property name="title" translatable="yes">Content</property>
-            <property name="tag">content</property>
-            <property name="child">
-              <object class="AdwNavigationView" id="_content_view"></object>
-            </property>
+            <property name="tag">content</property>            
           </object>
         </property>
       </object>

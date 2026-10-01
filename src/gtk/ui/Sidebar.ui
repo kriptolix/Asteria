@@ -5,22 +5,53 @@
     <property name="title" translatable="yes">Sidebar</property>
     <property name="width-request">400</property>
     <child>
-      <object class="AdwPreferencesPage">
-        <child>
-          <object class="PrefSite"></object>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar"> 
+            <child type="end">
+              <object class="GtkButton" id="_close_button">                
+                <property name="icon-name">window-close-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Close</property>                
+              </object>
+            </child>                                            
+            <child type="end">
+              <object class="GtkMenuButton">                
+                <property name="icon-name">open-menu-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Main Menu</property>                
+              </object>
+            </child>            
+            <child type="end">
+              <object class="GtkButton" id="_update_button">
+                <property name="icon-name">revert-rtl-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Visualize Changes</property>                
+              </object>
+            </child>
+          </object>
         </child>
-        <child>
-          <object class="PrefTheme"></object>
-        </child>
-        <child>
-          <object class="PrefFiles"></object>
-        </child>
-        <child>
-          <object class="PrefMenu"></object>
-        </child>
-        <child>
-          <object class="PrefNav"></object>
-        </child>
+        <property name="content">
+          <object class="GtkBox">
+            <property name="orientation">1</property>            
+            <child>
+              <object class="AdwPreferencesPage">
+                <child>
+                  <object class="PrefSite"></object>
+                </child>
+                <child>
+                  <object class="PrefTheme"></object>
+                </child>
+                <child>
+                  <object class="PrefFiles"></object>
+                </child>
+                <child>
+                  <object class="PrefMenu"></object>
+                </child>
+                <child>
+                  <object class="PrefNav"></object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
       </object>
     </child>
   </template>

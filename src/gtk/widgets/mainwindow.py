@@ -29,8 +29,7 @@ from .projectpage import ProjectPage
 class MainWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'MainWindow'
 
-    _navigation_view = Gtk.Template.Child()
-    _back_button = Gtk.Template.Child()
+    _navigation_view = Gtk.Template.Child()  
 
     def __init__(self, app):
         super().__init__(application=app)
@@ -39,9 +38,7 @@ class MainWindow(Adw.ApplicationWindow):
 
         self._startpage = StartPage()
         self._projectpage = ProjectPage()
-        self._navigation_view.add(self._startpage)
-       
-        self._back_button.connect("clicked", self.go_back)
+        self._navigation_view.add(self._startpage)  
 
         self._startpage._grid_view.connect("activate", self.change_page)
 
@@ -60,8 +57,7 @@ class MainWindow(Adw.ApplicationWindow):
             self.application.setup_project()
             return
 
-        self._navigation_view.push(self._projectpage)
-        self._back_button.set_visible(True)
+        self._navigation_view.push(self._projectpage)        
 
     def go_back(self, button):
          self._navigation_view.pop()

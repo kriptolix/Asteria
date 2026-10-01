@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="ItemMenu" parent="AdwActionRow">
+    <property name="title">Placeholder File.odt</property>
+    <property name="subtitle">Placeholder File.odt</property>
+    <child type="suffix">
+      <object class="GtkBox">
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkButton" id="_revemo_button">
+            <property name="icon-name">trash</property>
+            <property name="tooltip-text" translatable="yes">Remove this item</property>
+            <style>
+              <class name="flat"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkImage">
+            <property name="icon-name">list-drag-handle-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Hold to drag</property>
+            <property name="cursor">grab</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

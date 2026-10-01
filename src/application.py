@@ -87,7 +87,7 @@ class AsteriaApplication(Adw.Application):
     def setup_project(self):
 
         def _create_project(path):
-            pass
+            print(path)
 
         dialog = DialogCreate(self.window, _create_project)
         dialog.present(self.window)

@@ -53,8 +53,8 @@ class DialogCreate(Adw.Dialog):
         folder_directory = self._entry_path.get_text()
         folder_path = f"{folder_directory}/{folder_name}"
 
-        # prixmo passo: asteria new
-        print(folder_path)
+        self._callback(folder_path)
+        
 
         self.close()
 

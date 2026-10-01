@@ -25,7 +25,7 @@
                 <child type="suffix">
                   <object class="GtkButton" id="_menu_button">
                     <property name="valign">3</property>
-                    <property name="icon-name">symbolic-plus</property>
+                    <property name="icon-name">list-add-symbolic</property>
                   </object>
                 </child>
               </object>

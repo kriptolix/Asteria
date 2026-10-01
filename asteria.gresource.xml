@@ -17,6 +17,8 @@
     <file preprocess="xml-stripblanks">src/gtk/ui/shortcuts-dialog.ui</file>    
   </gresource>
   <gresource prefix="/io/github/Kriptolix/Asteria/icons/scalable/actions">
-    <file alias="list-add-symbolic.svg">data/icons/list-add-symbolic.svg</file>    
+    <file alias="list-add-symbolic.svg">data/icons/list-add-symbolic.svg</file>
+    <file alias="revert-rtl-symbolic.svg">data/icons/revert-rtl-symbolic.svg</file>
+    <file alias="list-drag-handle-symbolic.svg">data/icons/list-drag-handle-symbolic.svg</file>    
   </gresource>
 </gresources>
