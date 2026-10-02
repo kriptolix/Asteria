@@ -7,6 +7,11 @@
       <object class="AdwToolbarView">
         <child type="top">
           <object class="AdwHeaderBar">
+            <property name="title-widget">
+              <object class="AdwWindowTitle">
+                <property name="title">Asteria</property>
+              </object>
+            </property>
             <child type="end">
               <object class="GtkMenuButton">
                 <property name="icon-name">open-menu-symbolic</property>
@@ -19,7 +24,7 @@
           <object class="GtkBox">
             <property name="orientation">1</property>
             <property name="spacing">20</property>
-            <property name="margin-top">20</property>
+            <property name="margin-top">0</property>
             <property name="margin-bottom">20</property>
             <property name="margin-start">20</property>
             <property name="margin-end">20</property>
@@ -32,13 +37,52 @@
               </object>
             </child>
             <child>
-              <object class="GtkGridView" id="_grid_view">
-                <property name="single-click-activate">true</property>
-                <style>
-                  <class name="teste"/>
-                </style>
-                <property name="hexpand">true</property>
-                <property name="vexpand">true</property>
+              <object class="AdwClamp">
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">1</property>
+                    <property name="spacing">10</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="halign">1</property>
+                        <style>
+                          <class name="linked"/>
+                        </style>
+                        <child>
+                          <object class="GtkButton" id="_new_button">
+                            <property name="icon-name">document-new-symbolic</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="_load_button">
+                            <property name="icon-name">document-open-symbolic</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkStack" id="_stack">
+                        <child>
+                          <object class="AdwStatusPage" id="_empty_page">
+                            <property name="title" translatable="yes">Nothing here yet</property>
+                            <property name="description" translatable="yes">Create a new site or open an existing one</property>
+                            <property name="icon-name">image-missing-symbolic</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkGridView" id="_grid_view">
+                            <property name="single-click-activate">true</property>
+                            <style>
+                              <class name="teste"/>
+                            </style>
+                            <property name="hexpand">true</property>
+                            <property name="vexpand">true</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
               </object>
             </child>
           </object>

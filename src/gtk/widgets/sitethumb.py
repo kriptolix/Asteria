@@ -42,9 +42,9 @@ class SiteThumb(Gtk.Box):
     
     _text = Gtk.Template.Child()
     _thumb = Gtk.Template.Child()
-    _icon = Gtk.Template.Child()
+    
     _trash_button = Gtk.Template.Child()
-    _stack = Gtk.Template.Child()
+    
 
     def __init__(self):
         super().__init__()
@@ -71,9 +71,7 @@ class SiteThumb(Gtk.Box):
         self._trash_button.set_visible(False)
         self._trash_button.set_sensitive(False)
 
-    def set_first_item(self):      
-     
-        self._stack.set_visible_child(self._icon)
+    
         
 
 

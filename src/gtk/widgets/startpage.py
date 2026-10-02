@@ -28,9 +28,12 @@ from src.gtk.widgets.sitethumb import SiteThumb, DataObject
               'src/gtk/ui/StartPage.ui')
 class StartPage(Adw.NavigationPage):
     __gtype_name__ = 'StartPage'
-
-    _presentation = Gtk.Template.Child()
+    
     _grid_view = Gtk.Template.Child()
+    _stack = Gtk.Template.Child()
+    _empty_page = Gtk.Template.Child()
+    _new_button = Gtk.Template.Child()
+    _load_button = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
@@ -51,10 +54,14 @@ class StartPage(Adw.NavigationPage):
 
         path = os.path.join("/app/share/asteria/src", "hyde.png")
 
-        v1 = DataObject("Create a new site", "icon")
-        v2 = DataObject("Outra coisa", path)
-        store.append(v1)
-        store.append(v2)
+        v1 = DataObject("New Site", "icon")
+        v2 = DataObject("Outro Site", path)
+        v3 = DataObject("Mais um Site", path)
+        store.append(v3)
+        store.append(v3)
+        store.append(v3)
+
+        # self._stack.set_visible_child(self._grid_view)
 
 
     def _on_setup(self,

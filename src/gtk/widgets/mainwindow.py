@@ -40,7 +40,8 @@ class MainWindow(Adw.ApplicationWindow):
         self._projectpage = ProjectPage()
         self._navigation_view.add(self._startpage)  
 
-        self._startpage._grid_view.connect("activate", self.change_page)
+        self._startpage._grid_view.connect("activate", self.load_project)
+        self._startpage._new_button.connect("clicked", self.new_project)
 
         css_provider = Gtk.CssProvider()
         css_provider.load_from_resource('/io/github/Kriptolix/'
@@ -48,17 +49,16 @@ class MainWindow(Adw.ApplicationWindow):
         add_provider = Gtk.StyleContext.add_provider_for_display
         add_provider(Gdk.Display.get_default(),
                      css_provider,
-                     Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-        
-
-    def change_page(self, gridview:Gtk.GridView, position:int) -> None:
-
-        if position == 0:
-            self.application.setup_project()
-            return
-
-        self._navigation_view.push(self._projectpage)        
+                     Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)      
+            
 
     def go_back(self, button):
          self._navigation_view.pop()
          self._back_button.set_visible(False)
+
+    def load_project(self, grid, item) -> None:
+        # self.application.load_project(project_path)
+        self._navigation_view.push(self._projectpage)
+
+    def new_project(self, button) -> None:
+        self.application.setup_project()

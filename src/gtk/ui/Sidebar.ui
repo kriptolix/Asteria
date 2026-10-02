@@ -7,7 +7,12 @@
     <child>
       <object class="AdwToolbarView">
         <child type="top">
-          <object class="AdwHeaderBar"> 
+          <object class="AdwHeaderBar">
+            <property name="title-widget">
+              <object class="AdwWindowTitle">
+                <property name="title">Asteria</property>
+              </object>
+            </property>           
             <child type="end">
               <object class="GtkButton" id="_close_button">                
                 <property name="icon-name">window-close-symbolic</property>
