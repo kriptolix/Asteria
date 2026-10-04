@@ -1,0 +1,44 @@
+pt-BR:
+  reading_time: "{minutes} min de leitura"
+  in_this_page: "Nesta Página"
+  in_this_post: "Neste Artigo"
+  posts_empty: "Nenhum post publicado ainda."
+  posts_newest: "Mais recentes"
+  posts_oldest: "Mais antigos"
+  pagination_status: "Página {number} de {total_pages}"
+  taxonomy_empty: "Nenhum item encontrado."
+  page_not_found: "Página não encontrada"
+  back_to_home: "Voltar a página inicial"
+  navigation: "Navegação"
+  made_with: "Feito com"
+  blog_menu_label: "Artigos"
+  tags_label: "Tags"
+  categories_label: "Categorias"
+  close_button: "Fechar"
+  nav_toc_sections: "Sessões"
+
+en:
+  reading_time: "{minutes} min read"
+  in_this_page: "On This Page"
+  in_this_post: "On This Article"
+  posts_empty: "No posts published yet."
+  posts_newest: "Newest"
+  posts_oldest: "Oldest"
+  pagination_status: "Page {number} of {total_pages}"
+  taxonomy_empty: "No items found."
+  page_not_found: "Page not found"
+  back_to_home: "Return to the home page"
+  navigation: "Navigation"
+  made_with: "Made with"
+  blog_menu_label: "Articles"
+  tags_label: "Tags"
+  categories_label: "Categories"
+  close_button: "Close"
+  nav_toc_sections: "Sections"
+
+
+
+ 
+
+
+

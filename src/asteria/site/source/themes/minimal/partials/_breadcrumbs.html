@@ -1,0 +1,15 @@
+{# `breadcrumbs` is the list every template context already carries
+   (`[{title, url}, ...]`, current page last). Renders nothing for a
+   0- or 1-item trail (nothing to show — "you are here: Home" alone
+   isn't a breadcrumb), so no guard needed at the call site. #}
+{% macro render_breadcrumbs(breadcrumbs) %}
+{% if breadcrumbs and breadcrumbs|length > 1 %}
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+    {% for crumb in breadcrumbs %}
+    {% if not loop.last %}<a href="{{ crumb.url }}">{{ crumb.title }}</a><span
+        class="breadcrumbs__sep">/</span>
+    {% else %}<span class="breadcrumbs__current">{{ crumb.title }}</span>{% endif %}
+    {% endfor %}
+</nav>
+{% endif %}
+{% endmacro %}

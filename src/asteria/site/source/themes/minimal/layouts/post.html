@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% import "partials/_toc.html" as toc %}
+
+{% block title %}{{ post.title }} — {{ site.title }}{% endblock %}
+{% block description %}{{ post.description or site.description }}{% endblock %}
+
+{% block sidebar %}
+{{ super() }}
+{% if show_toc and page.toc and not show_navigation %}
+<aside class="sidebar-toc">
+    <h2>{{ t("in_this_post", post.lang) }}</h2>
+    {{ toc.render_toc(post.toc) }}
+</aside>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<article class="document document--post">
+    <h1 class="document__title">{{ post.title }}</h1>
+    <p class="document__meta">
+        {% if post.date %}
+        <time>{{ post.date | format_date(post.lang, "short") }}</time>
+        {% endif %}
+        {% if post.author %} &middot; {{ post.author }}{% endif %}
+    </p>
+    <div class="document__body">
+        {{ content }}
+    </div>
+    {% if post.tags or post.categories %}
+    <p class="document__tags">
+        {% for tag in post.tags %}<a class="tag" href="/tags/{{ tag|slug }}/">{{ tag }}</a>{% endfor %}
+        {% for cat in post.categories %}<a class="category" href="/categories/{{ cat|slug }}/">{{ cat }}</a>{% endfor %}
+    </p>
+    {% endif %}
+
+    <nav class="post-nav">
+        {% if post.previous %}<a class="post-nav__prev" href="{{ post.previous.url }}">&larr; {{ post.previous.title }}</a>{% endif %}
+        {% if post.next %}<a class="post-nav__next" href="{{ post.next.url }}">{{ post.next.title }} &rarr;</a>{% endif %}
+    </nav>
+</article>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Blog — {{ site.title }}{% endblock %}
+
+{% block content %}
+<section class="blog-index">    
+    {% if posts %}
+    <ul class="post-list">
+        {% for post in posts %}
+        <li>
+            <a href="{{ post.url }}">{{ post.title }}</a>
+            {% if post.date %}<time>{{ post.date | format_date(post.lang, "short") }}</time>{% endif %}            
+            {% if post.excerpt %}<p class="post-list__excerpt">{{ post.excerpt }}</p>{% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>{{ t("posts_empty", site.language) }}</p>
+    {% endif %}
+
+    {% if pagination.total_pages > 1 %}
+    <nav class="pagination">
+        {% if pagination.prev_url %}<a href="{{ pagination.prev_url }}">&larr; {{ t("posts_newest", site.language) }}</a>{% endif %}
+        <span class="pagination__status">{{ t("pagination_status", site.language, number=pagination.number, total_pages=pagination.total_pages) }}</span>
+        {% if pagination.next_url %}<a href="{{ pagination.next_url }}">{{ t("posts_oldest", site.language) }} &rarr;</a>{% endif %}
+    </nav>
+    {% endif %}
+</section>
+{% endblock %}

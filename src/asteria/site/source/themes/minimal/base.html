@@ -1,0 +1,83 @@
+{% import "partials/_nav.html" as navmacros %}
+{% import "partials/_footer.html" as footer %}
+{% import "partials/_header.html" as header %}
+{% import "partials/_breadcrumbs.html" as breadcrumbsmacros %}
+{% set current_lang = lang if lang is defined else site.default_language %}
+{% set has_sidebar = (show_navigation is defined and show_navigation) or (show_toc is defined and show_toc and page.toc) %}
+<!doctype html>
+<html lang="{{ current_lang }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{ site.title }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ site.description }}{% endblock %}">
+    <link rel="canonical" href="{{ site.url }}{{ canonical_path }}">
+    <link rel="stylesheet" href="{{ asset('/css/light.css') }}">
+    {% if theme_css == 'dark' %}
+    <link rel="stylesheet" href="{{ asset('/css/dark.css') }}">
+    {% endif %}
+
+    <meta property="og:site_name" content="{{ site.title }}">
+    <meta property="og:type" content="{{ og_type or 'website' }}">
+    <meta property="og:title" content="{{ self.title() }}">
+    <meta property="og:description" content="{{ self.description() }}">
+    <meta property="og:url" content="{{ site.url }}{{ canonical_path }}">
+    <meta name="twitter:card" content="summary">
+
+    {% if site.feed_url %}
+    <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ site.feed_url }}">
+    {% endif %}
+
+    {% if post is defined and post.translations %}
+    <link rel="alternate" hreflang="{{ current_lang }}" href="{{ site.url }}{{ canonical_path }}">
+    {% for translation_lang, translated in post.translations.items() %}
+    <link rel="alternate" hreflang="{{ translation_lang }}" href="{{ site.url }}{{ translated.url }}">
+    {% endfor %}
+    {% endif %}
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+</head>
+
+<body>
+    {{ header.render_header(site, canonical_path) }}
+
+    <div class="site-layout">
+        {% if has_sidebar %}
+        <div class="sidebar-column" id="sidebar-drawer">
+            <button type="button" class="drawer__close" id="sidebar-close">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">{{ t("close", page.lang) }}</span>
+            </button>
+            {% block sidebar %}
+            {% if show_navigation %}
+            <aside class="sidebar-nav">
+                <h2>{{ t("navigation", page.lang) }}</h2>
+                {{ navmacros.render_nav(site.nav, canonical_path, site.tocs) }}
+            </aside>
+            {% endif %}
+            {% endblock %}
+        </div>
+        <div class="drawer__overlay" id="sidebar-overlay" hidden></div>
+        {% endif %}
+        <main class="site-content">
+            {{ breadcrumbsmacros.render_breadcrumbs(breadcrumbs) }}
+            {% if has_sidebar %}
+            <button type="button" class="sidebar-toggle" id="sidebar-toggle" aria-expanded="false"
+                aria-controls="sidebar-drawer">
+                <span aria-hidden="true">&#9776;</span> {{ t("nav_toc_sections", site.language) }}
+            </button>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    {{ footer.render_footer(site) }}
+
+    <script src="{{ asset('/js/nav.js') }}" defer></script>
+</body>
+
+</html>

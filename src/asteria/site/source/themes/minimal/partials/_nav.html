@@ -1,0 +1,29 @@
+{% import "partials/_toc.html" as toc %}
+{% macro render_nav(entries, current_path, tocs={}) %}
+<ul>
+    {% for entry in entries %}
+    {% set entry_toc = tocs.get(entry.url) if entry.url else none %}    
+    {% set toc_items = none %}
+    {% if entry_toc %}
+        {% set toc_items = entry_toc[0].children if entry_toc|length == 1 else entry_toc %}
+    {% endif %}
+    <li class="{{ 'active' if entry.url == current_path else '' }}">
+        {% if entry.children or toc_items %}        
+        <details{% if nav_branch_active(entry, current_path) %} open{% endif %}>
+            <summary>{% if entry.url %}<a href="{{ entry.url }}">{{ entry.title }}</a>{% else %}<span class="nav-section-title">{{ entry.title }}</span>{% endif %}</summary>
+            {% if toc_items %}
+            {{ toc.render_toc(toc_items, entry.url) }}
+            {% endif %}
+            {% if entry.children %}
+            {{ render_nav(entry.children, current_path, tocs) }}
+            {% endif %}
+        </details>
+        {% elif entry.url %}
+        <a href="{{ entry.url }}">{{ entry.title }}</a>
+        {% else %}
+        <span class="nav-section-title">{{ entry.title }}</span>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endmacro %}

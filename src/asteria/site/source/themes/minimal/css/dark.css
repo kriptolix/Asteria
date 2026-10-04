@@ -1,0 +1,18 @@
+/* Variante escura do tema default — usada quando um documento define
+   `theme: dark` no seu front matter. Importa a base e sobrescreve só as
+   cores, para mostrar como criar variantes sem duplicar todo o CSS. */
+@import url("light.css");
+
+:root {
+  --color-bg: #14151a;
+  --color-text: #eaeaea;
+  --color-accent: #7c9bff;
+  --color-muted: #9a9a9a;
+}
+
+a.tag, a.category {
+  background: #23253a;
+}
+
+.breadcrumbs a { color: var(--color-muted); }
+.post-nav { border-top-color: #2a2a2a; }

@@ -1,0 +1,9 @@
+{% macro render_site_menu(menu, current_path) %}
+<nav class="site-menu">
+    <ul>
+        {% for item in menu %}
+        <li><a href="{{ item.url }}" class="{{ 'active' if menu_item_active(item, current_path) else '' }}">{{ item.title }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>
+{% endmacro %}

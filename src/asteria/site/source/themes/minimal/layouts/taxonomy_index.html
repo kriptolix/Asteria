@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}{{ kind_label }} — {{ site.title }}{% endblock %}
+
+{% block content %}
+<section class="taxonomy-index">
+    <h1 class="document__title">{{ kind_label }}</h1>
+    {% if terms %}
+    <ul class="term-list">
+        {% for term in terms %}
+        <li><a href="{{ term.url }}">{{ term.name }}</a> <span class="term-count">({{ term.posts|length }})</span></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>{{ t("taxonomy_empty", page.lang) }}</p>
+    {% endif %}
+</section>
+{% endblock %}

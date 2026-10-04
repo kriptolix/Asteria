@@ -1,0 +1,222 @@
+# Definições de linguagem para o highlight básico do asteria (ver
+# asteria/highlight.py). Isto é dado, não código: adicionar uma
+# linguagem, ou estender uma existente, é editar este arquivo.
+#
+# Um projeto pode sobrescrever/complementar isto criando
+# `source/highlight.yaml` com a mesma estrutura — é feito um deep merge
+# por cima deste arquivo (mesma regra do theme.params sobre theme.yaml,
+# ver config.deep_merge / theme_config.load_theme_config). Por exemplo,
+# pra adicionar uma keyword que falta:
+#
+#   python:
+#     keywords: [match, case]   # entra junto com as já existentes? NÃO —
+#                                 # deep_merge substitui listas inteiras,
+#                                 # não concatena. Copie a lista completa
+#                                 # se for só adicionar uma palavra.
+#
+# Campos por linguagem (todos opcionais, exceto o nome-chave em si, que
+# deve bater com o que vem depois de "language-" na classe gerada pelo
+# odt2web):
+#   aliases:          outras classes "language-X" que apontam pra esta
+#                      mesma definição (ex: "js" -> javascript)
+#   line_comment:      marcador de comentário de linha (ex: "#", "//")
+#   block_comments:    lista de pares [abre, fecha] (ex: ["/*", "*/"])
+#   triple_quotes:     aspas triplas tratadas como string única (Python)
+#   assignment_style:  "equals" ativa a heurística de "identificador no
+#                      início da linha seguido de um '=' isolado vira
+#                      var". Omitir em linguagens onde isso não faz
+#                      sentido (YAML usa ':', SQL não tem atribuição, etc.)
+#   keywords:          lista de palavras-chave (case-sensitive)
+
+python:
+  aliases: [py]
+  line_comment: "#"
+  triple_quotes: ['"""', "'''"]
+  assignment_style: equals
+  keywords:
+    - and
+    - as
+    - assert
+    - async
+    - await
+    - break
+    - class
+    - continue
+    - def
+    - del
+    - elif
+    - else
+    - except
+    - finally
+    - for
+    - from
+    - global
+    - if
+    - import
+    - in
+    - is
+    - lambda
+    - nonlocal
+    - not
+    - or
+    - pass
+    - raise
+    - return
+    - try
+    - while
+    - with
+    - yield
+    - None
+    - True
+    - False
+    - self
+
+javascript:
+  aliases: [js, jsx, typescript, ts, tsx]
+  line_comment: "//"
+  block_comments:
+    - ["/*", "*/"]
+  assignment_style: equals
+  keywords:
+    - async
+    - await
+    - break
+    - case
+    - catch
+    - class
+    - const
+    - continue
+    - debugger
+    - default
+    - delete
+    - do
+    - else
+    - enum
+    - export
+    - extends
+    - finally
+    - for
+    - function
+    - if
+    - implements
+    - import
+    - in
+    - instanceof
+    - interface
+    - let
+    - new
+    - of
+    - package
+    - private
+    - protected
+    - public
+    - return
+    - static
+    - super
+    - switch
+    - this
+    - throw
+    - try
+    - type
+    - typeof
+    - undefined
+    - var
+    - void
+    - while
+    - yield
+    - null
+    - true
+    - false
+
+html:
+  aliases: [htm, xml]
+  block_comments:
+    - ["<!--", "-->"]
+
+css:
+  aliases: [scss, less]
+  block_comments:
+    - ["/*", "*/"]
+
+json:
+  keywords: [true, false, null]
+
+bash:
+  aliases: [sh, shell, zsh]
+  line_comment: "#"
+  assignment_style: equals
+  keywords:
+    - case
+    - do
+    - done
+    - elif
+    - else
+    - esac
+    - exit
+    - export
+    - fi
+    - for
+    - function
+    - if
+    - in
+    - local
+    - return
+    - then
+    - while
+
+yaml:
+  aliases: [yml]
+  line_comment: "#"
+  keywords: [true, false, null, yes, no, on, off]
+
+sql:
+  line_comment: "--"
+  block_comments:
+    - ["/*", "*/"]
+  keywords:
+    - ALL
+    - ALTER
+    - AND
+    - AS
+    - BETWEEN
+    - BY
+    - CASE
+    - CREATE
+    - DEFAULT
+    - DELETE
+    - DISTINCT
+    - DROP
+    - END
+    - EXISTS
+    - FOREIGN
+    - FROM
+    - GROUP
+    - HAVING
+    - IN
+    - INNER
+    - INSERT
+    - INTO
+    - JOIN
+    - KEY
+    - LEFT
+    - LIKE
+    - LIMIT
+    - NOT
+    - NULL
+    - OFFSET
+    - ON
+    - OR
+    - ORDER
+    - OUTER
+    - PRIMARY
+    - REFERENCES
+    - RIGHT
+    - SELECT
+    - SET
+    - TABLE
+    - THEN
+    - UNION
+    - UPDATE
+    - VALUES
+    - WHEN
+    - WHERE

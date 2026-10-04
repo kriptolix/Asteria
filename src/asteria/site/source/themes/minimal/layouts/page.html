@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import "partials/_toc.html" as toc %}
+
+{% block title %}{{ page.title }} — {{ site.title }}{% endblock %}
+{% block description %}{{ page.description or site.description }}{% endblock %}
+
+{% block sidebar %}
+{{ super() }}
+{% if show_toc and page.toc and not show_navigation %}
+<aside class="sidebar-toc">
+    <h2>{{ t("in_this_page", page.lang) }}</h2>
+    {{ toc.render_toc(page.toc) }}
+</aside>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<article class="document">
+    <h1 class="document__title">{{ page.title }}</h1>
+    <div class="document__body">
+        {{ content }}
+    </div>
+</article>
+{% endblock %}

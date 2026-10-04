@@ -1,0 +1,8 @@
+# The theme's own namespace exposed to templates as
+# theme.<key>. All keys used in base.html/page.html/etc. must
+# be declared here (even if empty). If there are keys used in the template and
+# are missing here, the build will break.
+
+sidebar_toc: true
+default_variant: light
+subtitle: ""

@@ -1,0 +1,35 @@
+{% import "partials/_site_menu.html" as sitemenu %}
+{% import "partials/_lang_switcher.html" as langswitch %}
+
+{% macro render_header(site, canonical_path) %}
+<header class="site-header">
+    <div class="site-header__inner">
+
+        <div>
+            <a class="site-title" href="/">{{ site.title }}</a>
+        </div>
+
+        <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false"
+            aria-controls="site-menu-drawer">
+            <svg class="menu-toggle__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" />
+            </svg>
+            <span class="sr-only">{{ t("menu", site.language) }}</span>
+        </button>
+
+        <div class="site-menu-drawer" id="site-menu-drawer">
+            <button type="button" class="drawer__close" id="menu-close">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">{{ t("close_button", site.language) }}</span>
+            </button>
+            {{ sitemenu.render_site_menu(site.menu, canonical_path) }}
+            {% set post_translations = post.translations if (post is defined and post.translations) else {} %}
+            {{ langswitch.render_lang_switcher(site.languages, current_lang, site.blog_index_urls, post_translations) }}
+        </div>
+
+    </div>
+
+    <div class="drawer__overlay" id="menu-overlay" hidden></div>
+</header>
+{% endmacro %}

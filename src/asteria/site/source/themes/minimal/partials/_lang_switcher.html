@@ -1,0 +1,30 @@
+{# `languages` is `site.languages`; `blog_index_urls` is
+   `site.blog_index_urls` — both always present regardless of template.
+   `translations` is the current document's translations dict
+   (`post.translations`/`page.translations`), or `{}` — passed in
+   explicitly by the caller instead of this macro reading an ambient
+   `post`/`page` off the caller's context, since an *imported* macro
+   doesn't inherit that context by default, and `post`/`page` don't
+   exist at all on non-document templates (blog, taxonomy, 404) in the
+   first place. Renders nothing for a single-language site. #}
+{% macro render_lang_switcher(languages, current_lang, blog_index_urls, translations={}) %}
+{% if languages|length > 1 %}
+<nav class="lang-switcher" aria-label="idiomas">
+    <ul>
+        {% for switch_lang in languages %}
+        {% set translated = translations.get(switch_lang) %}
+        <li>
+            {% if switch_lang == current_lang %}
+            <span class="lang-switcher__current" aria-current="true">{{ switch_lang }}</span>
+            {% elif translated %}
+            <a href="{{ translated.url }}" hreflang="{{ switch_lang }}">{{ switch_lang }}</a>
+            {% else %}
+            <a href="{{ blog_index_urls.get(switch_lang, '/') }}" hreflang="{{ switch_lang }}">{{
+                switch_lang }}</a>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
+{% endif %}
+{% endmacro %}

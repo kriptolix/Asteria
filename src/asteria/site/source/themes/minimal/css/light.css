@@ -1,0 +1,510 @@
+:root {
+  --color-bg: #ffffff;
+  --color-text: #1a1a1a;
+  --color-accent: #2453ff;
+  --color-muted: #666;
+  --color-tag-bg: #f0f2ff;
+  --color-nav-border: #eee;
+
+  --max-width: 860px;
+
+  --font-body: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Trava o scroll da página quando um drawer está aberto */
+body.drawer-open {
+  overflow: hidden;
+}
+
+/* Utilitário de acessibilidade: some visualmente, mas continua legível
+   por leitores de tela. Usado nos rótulos dos botões de drawer. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.site-header__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1.25rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.site-subtitle {
+  margin: 0.15rem 0 0;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.site-menu ul {
+  list-style: none;
+  display: flex;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+.site-menu a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.site-menu a:hover { color: var(--color-accent); }
+
+/* O menu do site e o seletor de idioma vivem juntos dentro de
+   .site-menu-drawer: lado a lado no desktop, e viram um painel
+   deslizante em telas pequenas (ver media query abaixo). */
+.site-menu-drawer {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* O seletor de idioma não tinha estilo próprio antes — sem isso,
+   renderiza como uma lista com marcadores. */
+.lang-switcher ul {
+  display: flex;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lang-switcher a,
+.lang-switcher__current {
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.lang-switcher a:hover { color: var(--color-accent); }
+
+.lang-switcher__current {
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* Botão hamburguer: some no desktop, aparece na media query mobile */
+.menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.menu-toggle:hover { color: var(--color-accent); }
+
+.menu-toggle__icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Botão que abre a barra lateral (nav/TOC) em telas pequenas */
+.sidebar-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--color-nav-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.sidebar-toggle:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Botão de fechar dos drawers — some no desktop */
+.drawer__close {
+  display: none;
+  align-self: flex-end;
+  border: 0;
+  background: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--color-muted);
+  padding: 0.25rem;
+}
+
+.drawer__close:hover { color: var(--color-accent); }
+
+/* Camada escura atrás dos drawers, some no desktop por padrão
+   (só existe posicionamento fixo dentro da media query) */
+.drawer__overlay {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.drawer__overlay[hidden] { display: none; }
+
+.site-layout {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.site-content { flex: 1; min-width: 0; }
+
+.sidebar-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+
+.sidebar-toc {
+  width: 220px;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  position: sticky;
+  top: 1rem;
+}
+
+.sidebar-toc h2 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+}
+
+.sidebar-toc ul {
+  list-style: none;
+  padding-left: 0.75rem;
+  margin: 0;
+}
+
+.sidebar-toc > ul { padding-left: 0; }
+
+.sidebar-toc a {
+  color: var(--color-text);
+  text-decoration: none;
+  display: block;
+  padding: 0.15rem 0;
+}
+
+.sidebar-toc a:hover { color: var(--color-accent); }
+
+.sidebar-nav {
+  width: 240px;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+.sidebar-nav h2 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding-left: 0.9rem;
+  margin: 0;
+}
+
+.sidebar-nav > ul { padding-left: 0; }
+
+.sidebar-nav a, .sidebar-nav .nav-section {
+  display: block;
+  padding: 0.2rem 0;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.sidebar-nav .nav-section {
+  color: var(--color-muted);
+  font-weight: 600;
+}
+
+.sidebar-nav a:hover { color: var(--color-accent); }
+
+.sidebar-nav li.active > a {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.sidebar-nav details { margin: 0; }
+
+.sidebar-nav summary {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.2rem 0;
+  list-style: none;
+}
+
+.sidebar-nav summary::-webkit-details-marker { display: none; }
+
+.sidebar-nav summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.35rem;
+  font-size: 0.7em;
+  color: var(--color-muted);
+  transition: transform 0.15s ease;
+}
+
+.sidebar-nav details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.sidebar-nav summary a {
+  display: inline;
+  padding: 0;
+}
+
+.sidebar-nav .nav-section-title {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.breadcrumbs {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-bottom: 1.25rem;
+}
+
+.breadcrumbs a { color: var(--color-muted); }
+.breadcrumbs__sep { margin: 0 0.4rem; }
+.breadcrumbs__current { color: var(--color-text); }
+
+.post-list { list-style: none; padding: 0; }
+.post-list li { margin-bottom: 1.25rem; }
+.post-list time { color: var(--color-muted); font-size: 0.85rem; margin-left: 0.5rem; }
+.post-list__excerpt { margin: 0.25rem 0 0; color: var(--color-muted); }
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+.term-list { list-style: none; padding: 0; }
+.term-count { color: var(--color-muted); font-size: 0.85rem; }
+
+a.tag, a.category {
+  display: inline-block;
+  background: var(--color-tag-bg);
+  color: var(--color-accent);
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  margin-right: 0.4rem;
+  text-decoration: none;
+}
+
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-nav-border);
+  font-size: 0.9rem;
+}
+
+.asteria-embed {
+  display: block;
+  margin: 1.5rem 0;
+  border-radius: 6px;
+  max-width: 100%;
+}
+
+/* Conteúdo vindo do Markdown (page.html / post.html): antes não havia
+   nenhuma regra para isso, então imagens grandes, tabelas largas e
+   blocos de código estouravam a largura em telas pequenas. */
+.document__body img,
+.document__body video {
+  max-width: 100%;
+  height: auto;
+}
+
+.document__body pre {
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.document__body table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+  border-collapse: collapse;
+}
+
+.document__body iframe {
+  max-width: 100%;
+}
+
+.site-footer {
+  text-align: center;
+  color: var(--color-muted); 
+  font-size: 0.85rem;
+  padding-top: 1.5rem;
+  margin-top: auto;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.50rem;
+  margin-top: 0.75rem;
+}
+
+.social-link {
+  color: var(--color-muted);
+  display: inline-flex;
+  transition: color 0.15s ease;
+}
+
+.social-link img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.social-link:hover { color: var(--color-accent); }
+
+/* ==========================================================================
+   Responsivo
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .site-header__inner { padding: 1rem; }
+
+  .menu-toggle { display: flex; }
+
+  /* Menu do site + idioma viram um painel deslizando da direita */
+  .site-menu-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(80vw, 300px);
+    background: var(--color-bg);
+    box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
+    padding: 1rem 1.25rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+    z-index: 50;
+    overflow-y: auto;
+  }
+
+  .site-menu-drawer.is-open { transform: translateX(0); }
+
+  .site-menu-drawer .drawer__close { display: block; }
+
+  .site-menu ul {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .site-menu a { display: block; padding: 0.4rem 0; }
+
+  .lang-switcher ul { flex-direction: column; gap: 0.4rem; }
+
+  #menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+  }
+
+  /* Nav/TOC lateral vira um painel deslizando da esquerda */
+  .site-layout { flex-direction: column; }
+
+  .sidebar-toggle { display: inline-flex; }
+
+  .sidebar-column {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(85vw, 300px);
+    background: var(--color-bg);
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
+    padding: 1rem 1.25rem;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 50;
+    overflow-y: auto;
+  }
+
+  .sidebar-column.is-open { transform: translateX(0); }
+
+  .sidebar-column .drawer__close { display: block; }
+
+  .sidebar-nav, .sidebar-toc { width: auto; position: static; }
+
+  #sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-title { font-size: 1.1rem; }
+
+  .post-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .pagination {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

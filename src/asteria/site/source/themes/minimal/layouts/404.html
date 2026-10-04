@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}{{ t("page_not_found", site.language) }} — {{ site.title }}{% endblock %}
+{% block content %}
+<section>
+    <h1 class="document__title">{{ t("page_not_found", site.language) }}</h1>    
+    <p><a href="/">{{ t("back_to_home", site.language) }}</a></p>
+</section>
+{% endblock %}

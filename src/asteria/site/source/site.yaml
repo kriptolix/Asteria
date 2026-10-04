@@ -1,0 +1,18 @@
+site:
+  title: "My Site"
+  description: ""
+  url: "http://localhost:8000"
+  language: "en"
+  home_page: "welcome"
+
+theme:
+  name: "minimal"
+
+menu:
+  - page: "welcome"
+  - page: "blog"
+
+social:
+  - platform: email
+    url: "mailto:contact@example.com"
+    label: E-mail

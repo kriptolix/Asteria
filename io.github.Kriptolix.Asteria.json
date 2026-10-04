@@ -2,14 +2,7 @@
     "id": "io.github.Kriptolix.Asteria",
     "runtime": "org.gnome.Platform",
     "runtime-version": "50",
-    "sdk": "org.gnome.Sdk",
-    "sdk-extensions": [
-        "org.freedesktop.Sdk.Extension.rust-stable"
-    ],
-
-    "build-options": {
-        "append-path": "/usr/lib/sdk/rust-stable/bin"
-    },
+    "sdk": "org.gnome.Sdk",    
     "command": "asteria",
     "finish-args": [
         "--share=network",

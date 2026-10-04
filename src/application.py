@@ -21,6 +21,7 @@ import sys
 import gi
 
 from gettext import gettext as _
+from pathlib import Path
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
@@ -28,6 +29,7 @@ gi.require_version('Adw', '1')
 from gi.repository import Gtk, Gio, Adw
 from src.gtk.widgets.mainwindow import MainWindow
 from src.gtk.widgets.dialgocreate import DialogCreate
+from src.asteria.api import create_new_project, load_project_config
 
 class AsteriaApplication(Adw.Application):
     """The main application singleton class."""
@@ -39,6 +41,9 @@ class AsteriaApplication(Adw.Application):
         self.create_action('quit', lambda *_: self.quit(), ['<control>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
+
+        self.project_path = None
+        self.project_config = None
 
     def do_activate(self):
         """Called when the application is activated.
@@ -87,10 +92,20 @@ class AsteriaApplication(Adw.Application):
     def setup_project(self):
 
         def _create_project(path):
-            print(path)
+            self.project_path = Path(path)
+            create_new_project(self.project_path)
+            self.load_project()
+            
+
 
         dialog = DialogCreate(self.window, _create_project)
         dialog.present(self.window)
+
+    def load_project(self):
+        self.project_config = load_project_config(self.project_path)
+
+    def update_project(self):
+        pass
 
 
 def main(version):
