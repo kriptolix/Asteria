@@ -8,7 +8,7 @@
       <object class="GtkBox">
         <property name="spacing">5</property>
         <child>
-          <object class="GtkButton" id="_revemo_button">
+          <object class="GtkButton" id="_remove_button">
             <property name="icon-name">trash</property>
             <property name="tooltip-text" translatable="yes">Remove this item</property>
             <style>
@@ -17,10 +17,9 @@
           </object>
         </child>
         <child>
-          <object class="GtkImage">
+          <object class="GtkImage" id="_grab_image">
             <property name="icon-name">list-drag-handle-symbolic</property>
-            <property name="tooltip-text" translatable="yes">Hold to drag</property>
-            <property name="cursor">grab</property>
+            <property name="tooltip-text" translatable="yes">Hold to drag</property>            
           </object>
         </child>
       </object>

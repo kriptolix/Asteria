@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="PrefSocial" parent="AdwPreferencesGroup">
+    <property name="margin-start">10</property>
+    <property name="margin-end">10</property>
+    <child>
+      <object class="AdwExpanderRow">
+        <property name="title" translatable="yes">Social Links</property>
+        <property name="expanded">true</property>
+        <style>
+          <class name="view-bg"/>
+        </style>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Social Settings</property>
+            <property name="description" translatable="yes">Manage links for social media and more. You can drag and drop to reorder</property>
+            <property name="margin-bottom">10</property>
+            <property name="margin-top">10</property>
+            <property name="margin-end">10</property>
+            <property name="margin-start">10</property>
+            <child>
+              <object class="GtkBox" id="add_button">
+                <child>
+                  <object class="GtkButton">
+                    <property name="child">
+                      <object class="GtkBox">
+                        <property name="spacing">15</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label">Add a link</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkImage">
+                            <property name="icon-name">list-add-symbolic</property>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="_trash_button">
+                    <property name="icon-name">user-trash-symbolic</property>
+                    <property name="focusable">false</property>
+                    <property name="halign">2</property>
+                    <property name="hexpand">true</property>
+                    <property name="tooltip-text">Drag a link to here to delet it</property>
+                    <style>
+                      <class name="circular"/>
+                      <class name="error"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBox" id="_social_list">
+                <property name="margin-top">10</property>
+                <style>
+                  <class name="boxed-list"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

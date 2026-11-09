@@ -94,25 +94,14 @@ class Document:
 
     @property
     def cover(self) -> str | None:
-        """Caminho da imagem de capa (`cover:` no front matter), ex:
-        "/covers/meu-post.jpg" — um asset em static/, não uma imagem
-        extraída do corpo do .odt (essas continuam só em `content`). None
-        quando o documento não define capa. Aceita o valor sem a barra
-        inicial no front matter (ex: `cover: covers/foo.jpg`) e
-        normaliza aqui, mesmo critério usado pelo `asset()` do tema
-        (ver templating.apply_asset_manifest)."""
+        
         value = self.frontmatter.cover
         if not value:
             return None
         return value if value.startswith("/") else f"/{value}"
 
     @property
-    def menu_title(self) -> str | None:
-        """`menu_title:` no front matter — rótulo alternativo a usar no
-        menu quando o próprio título do documento não é o texto ideal
-        pro link (ex: título longo demais). Raw passthrough (None quando
-        não informado) — quem decide a prioridade final entre isso,
-        `title:` do menu, e `.title` do documento é build._build_menu."""
+    def menu_title(self) -> str | None:        
         return self.frontmatter.menu_title
 
     @property
@@ -126,12 +115,7 @@ class Document:
         return self.frontmatter.nav_title
 
     @property
-    def template(self) -> str | None:
-        """Nome do arquivo de template do tema (ex: 'wiki.html') a usar
-        na renderização deste documento, vindo de `template:` no front
-        matter. None mantém o padrão de acordo com a localização do
-        documento (page.html para páginas, post.html para posts) — ver
-        build._resolve_template_name."""
+    def template(self) -> str | None:       
         return self.frontmatter.template
 
     @property

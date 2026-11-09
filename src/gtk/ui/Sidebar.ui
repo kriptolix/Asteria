@@ -12,46 +12,46 @@
               <object class="AdwWindowTitle">
                 <property name="title">Asteria</property>
               </object>
-            </property>           
+            </property>
             <child type="end">
-              <object class="GtkButton" id="_close_button">                
+              <object class="GtkButton" id="_close_button">
                 <property name="icon-name">window-close-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Close</property>                
+                <property name="tooltip-text" translatable="yes">Close</property>
               </object>
-            </child>                                            
+            </child>
             <child type="end">
-              <object class="GtkMenuButton">                
+              <object class="GtkMenuButton">
                 <property name="icon-name">open-menu-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Main Menu</property>                
+                <property name="tooltip-text" translatable="yes">Main Menu</property>
               </object>
-            </child>            
+            </child>
             <child type="end">
               <object class="GtkButton" id="_update_button">
                 <property name="icon-name">revert-rtl-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Visualize Changes</property>                
+                <property name="tooltip-text" translatable="yes">Visualize Changes</property>
               </object>
             </child>
           </object>
         </child>
         <property name="content">
           <object class="GtkBox">
-            <property name="orientation">1</property>            
+            <property name="orientation">1</property>
             <child>
               <object class="AdwPreferencesPage">
                 <child>
-                  <object class="PrefSite"></object>
+                  <object class="PrefSite" id="_pref_site"></object>
                 </child>
                 <child>
-                  <object class="PrefTheme"></object>
+                  <object class="PrefTheme" id="_pref_theme"></object>
                 </child>
                 <child>
-                  <object class="PrefFiles"></object>
+                  <object class="PrefFiles" id="_pref_files"></object>
                 </child>
                 <child>
-                  <object class="PrefMenu"></object>
+                  <object class="PrefMenu" id="_pref_menu"></object>
                 </child>
                 <child>
-                  <object class="PrefNav"></object>
+                  <object class="PrefSocial" id="_pref_social"></object>
                 </child>
               </object>
             </child>

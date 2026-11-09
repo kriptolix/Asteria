@@ -14,16 +14,28 @@
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Menu Settings</property>
-            <property name="description" translatable="yes">Manage site menu</property>
+            <property name="description" translatable="yes">Manage site menu. You can drag and drop to reorder</property>
             <property name="margin-bottom">10</property>
             <property name="margin-top">10</property>
             <property name="margin-end">10</property>
             <property name="margin-start">10</property>
             <child>
               <object class="AdwActionRow">
-                <property name="title" translatable="yes">Add page to menu</property>
+                <property name="title" translatable="yes">Add a page</property>
                 <child type="suffix">
-                  <object class="GtkButton" id="_menu_button">
+                  <object class="GtkButton" id="_add_button">
+                    <property name="valign">3</property>
+                    <property name="icon-name">list-add-symbolic</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Add a blog</property>
+                <property name="subtitle" translatable="yes">"blog" is a special entry that corresponds to the page containing the list of posts.</property>
+                <child type="suffix">
+                  <object class="GtkButton" id="_blog_button">
                     <property name="valign">3</property>
                     <property name="icon-name">list-add-symbolic</property>
                   </object>
@@ -32,15 +44,10 @@
             </child>
             <child>
               <object class="GtkListBox" id="_menu_list">
+                <property name="margin-top">10</property>
                 <style>
                   <class name="boxed-list"/>
                 </style>
-                <property name="margin-top">10</property>
-                <child>
-                  <object class="AdwActionRow">
-                    <property name="title">welcome.odt</property>
-                  </object>
-                </child>
               </object>
             </child>
           </object>

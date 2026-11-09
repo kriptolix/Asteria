@@ -24,12 +24,12 @@
                 <property name="orientation">1</property>
                 <property name="spacing">10</property>
                 <child>
-                  <object class="GtkButton" id="_add_page">
+                  <object class="GtkButton" id="_page_button">
                     <property name="label" translatable="yes">Pages</property>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton" id="_add_post">
+                  <object class="GtkButton" id="_post_button">
                     <property name="label" translatable="yes">Posts</property>
                   </object>
                 </child>
@@ -40,7 +40,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton" id="_add_cover">
+                  <object class="GtkButton" id="_cover_button">
                     <property name="label" translatable="yes">Covers</property>
                   </object>
                 </child>

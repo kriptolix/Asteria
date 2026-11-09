@@ -33,7 +33,7 @@ class StartPage(Adw.NavigationPage):
     _stack = Gtk.Template.Child()
     _empty_page = Gtk.Template.Child()
     _new_button = Gtk.Template.Child()
-    _load_button = Gtk.Template.Child()
+    _open_button = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()

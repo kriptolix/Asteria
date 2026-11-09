@@ -25,11 +25,14 @@ from pathlib import Path
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
+gi.require_version('WebKit', '6.0')
 
 from gi.repository import Gtk, Gio, Adw
 from src.gtk.widgets.mainwindow import MainWindow
-from src.gtk.widgets.dialgocreate import DialogCreate
-from src.asteria.api import create_new_project, load_project_config
+from src.gtk.widgets.dialogcreate import DialogCreate
+from .projecsettings import ProjectSettings
+
+from .iooperations import choose_directory
 
 class AsteriaApplication(Adw.Application):
     """The main application singleton class."""
@@ -42,8 +45,12 @@ class AsteriaApplication(Adw.Application):
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
 
-        self.project_path = None
+        self.project_dir = None
         self.project_config = None
+
+        # print(self.project_dir.exists())
+        # print(self.project_dir.is_dir())
+        # print(self.project_dir.is_file())        
 
     def do_activate(self):
         """Called when the application is activated.
@@ -91,21 +98,40 @@ class AsteriaApplication(Adw.Application):
 
     def setup_project(self):
 
-        def _create_project(path):
-            self.project_path = Path(path)
-            create_new_project(self.project_path)
-            self.load_project()
+        def _create_project(items):
+            project_name = items[0]
+            project_gdir = items[1]
+            project_path = Path(project_gdir.get_path()) / project_name
+
+            create_new_project(project_path) #the lib use Path to be S.O. agnostic
+            self.project_dir = project_gdir.get_child(project_name)
+            # self.project_dir = parent_dir.get_child("sitedev")
+            self.load_config()
             
-
-
         dialog = DialogCreate(self.window, _create_project)
         dialog.present(self.window)
 
-    def load_project(self):
-        self.project_config = load_project_config(self.project_path)
+    def load_config(self):
+
+        project_path = Path(self.project_dir.get_path())
+        self.project_config = ProjectSettings.load(project_path)
+
+        self.window._projectpage._sidebar.set_config()
+        
+        self.window.go_to_project_page(None, None)
+        self.window._projectpage.create_server()  
+
+    def open_project(self):
+        def _on_chosen(gdir):
+            self.project_dir = gdir
+            self.load_config()
+
+        choose_directory(self.window, _on_chosen)
+
 
     def update_project(self):
         pass
+        
 
 
 def main(version):

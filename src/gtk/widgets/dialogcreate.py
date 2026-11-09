@@ -20,14 +20,12 @@ class DialogCreate(Adw.Dialog):
         super().__init__()
 
         self._callback = callback
-
-        self._folder_path = ""
+        self._window = window
+        self._parent_dir = None        
         
         self._cancel_button.connect("clicked", lambda *_: self.close())
         self._load_button.connect("clicked", self._get_path)
-        self._create_button.connect("clicked", self.setup_path)
-
-        self.window = window
+        self._create_button.connect("clicked", self.setup_path)       
 
         self._name_buffer = self._entry_name.get_buffer()
         self._path_buffer = self._entry_path.get_buffer()
@@ -45,16 +43,18 @@ class DialogCreate(Adw.Dialog):
             self._create_button.set_sensitive(False)  
 
     def _get_path(self, button):
+
+        def _on_chosen(gdir):
+            path = gdir.get_path()            
+            self._path_buffer.set_text(path, -1)
+            self._parent_dir = gdir            
         
-        choose_directory(self.window, self._entry_path)
+        choose_directory(self._window, _on_chosen)
 
     def setup_path(self, button):
-        folder_name = self._entry_name.get_text()
-        folder_directory = self._entry_path.get_text()
-        folder_path = f"{folder_directory}/{folder_name}"
-
-        self._callback(folder_path)
+        project_name = self._entry_name.get_text()
         
+        self._callback([project_name, self._parent_dir])
 
         self.close()
 

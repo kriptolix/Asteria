@@ -54,7 +54,7 @@
                           </object>
                         </child>
                         <child>
-                          <object class="GtkButton" id="_load_button">
+                          <object class="GtkButton" id="_open_button">
                             <property name="icon-name">document-open-symbolic</property>
                           </object>
                         </child>

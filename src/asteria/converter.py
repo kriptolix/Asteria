@@ -74,7 +74,7 @@ class Odt2WebConverter(ODTConverter):
 
     def __init__(self) -> None:
         try:
-            from odt2web import convert  # type: ignore
+            from .odt2web import convert  # type: ignore
         except ImportError as exc:  # pragma: no cover - depende do ambiente
             raise ImportError(
                 "The 'odt2web' library is not installed."

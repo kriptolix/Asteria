@@ -1,38 +1,10 @@
 """
 Public, frontend-agnostic API for Asteria.
 
-Everything a UI needs -- the CLI, a GTK4 app, a test, a one-off script --
-lives here as plain functions and classes that:
-
-  * take/return real Python objects (Path, dataclasses, structured
-    results), never text meant for a terminal;
-  * never print anything and never call sys.exit();
-  * never block on terminal input (no input() prompts -- a caller that
-    needs a confirmation step, like the CLI's `asteria reset-theme`
-    prompt, does that itself *before* calling in here);
-  * report failures as exceptions (AsteriaError) or, for the long-running
-    dev server, as callbacks -- never as a process exit code.
-
-`cli.py` is a thin wrapper around this module: every command it exposes
-just calls one of these functions and formats the result for a
-terminal. Any other frontend (a GTK4 app, a script, a test) should
+`cli.py` is a thin wrapper around this module. Any other frontend 
+(a GTK4 app, a script, a test) should
 import straight from here instead of going through the CLI or shelling
 out to `asteria ...` as a subprocess.
-
-Threading note for GUI frontends: build_project/check_project/
-clean_project/etc. are synchronous and do file I/O, so a GUI should
-normally call them from a worker thread rather than its main/UI thread.
-DevServer (see server.py) already runs its own work in background
-threads and reports back through callbacks -- see its docstring for the
-main-thread-marshalling caveat that applies to those callbacks.
-
-File watching: DevServer's built-in watcher needs the optional
-`watchfiles` package (`pip install "asteria[watch]"`); check
-`watch_backend_available()` to know whether it's there. A frontend
-with its own watcher (e.g. Gio.FileMonitor in a GTK app) doesn't need
-it: create `DevServer(..., watch=False, live_reload=True)`, watch the
-paths returned by `discover_watch_paths()`, and call
-`DevServer.rebuild()` (from a worker thread) when something changes.
 """
 
 from __future__ import annotations
@@ -52,6 +24,7 @@ from .server import (
     discover_watch_paths,
     watch_backend_available,
 )
+from .theme_config import ThemeConfig, theme_config_from_site
 from .writer import clean_output
 
 __all__ = [
@@ -61,6 +34,7 @@ __all__ = [
     "CleanResult",
     "DevServer",
     "DevServerStatus",
+    "ThemeConfig",
     "build_project",
     "check_project",
     "clean_project",
@@ -68,6 +42,7 @@ __all__ = [
     "create_new_project",
     "discover_watch_paths",
     "load_project_config",
+    "load_project_theme",
     "reset_project_theme",
     "watch_backend_available",
 ]
@@ -75,13 +50,16 @@ __all__ = [
 
 def load_project_config(project_root: Path, config_filename: str = "site.yaml") -> SiteConfig:
     """Loads and returns a project's parsed `site.yaml` (merged with the
-    built-in defaults), without running a build. Useful for a UI that
-    wants to show the site title, output directory, theme in use, etc.
-    as soon as a project is opened, before the user asks for a build.
-
-    Raises AsteriaError if the file is missing or not valid YAML.
+    built-in defaults). Raises AsteriaError if the file is missing or not valid YAML.
     """
     return load_config(project_root / "source" / config_filename)
+
+
+def load_project_theme(project_root: Path, config_filename: str = "site.yaml") -> ThemeConfig:
+    """Loads the active theme's `theme.yaml` as a `ThemeConfig` (its `data`
+    mapping, with no assumptions about which keys exist).
+    """
+    return theme_config_from_site(load_project_config(project_root, config_filename))
 
 
 def build_project(
@@ -89,13 +67,7 @@ def build_project(
     converter_name: str = "odt2web",
     config_filename: str = "site.yaml",
 ) -> BuildResult:
-    """Runs a full build and writes the output to disk.
-
-    Raises AsteriaError on fatal, whole-project errors (bad site.yaml,
-    missing theme, ...). Content-level problems (a broken reference, a
-    missing translation, ...) do NOT raise -- they're collected in
-    `result.diagnostics` instead. Always check `result.success` (or
-    `result.diagnostics.has_errors`) after a call that didn't raise.
+    """Runs a full build and writes the output to disk.   
     """
     return run_build(project_root, config_filename=config_filename, converter_name=converter_name)
 
@@ -106,9 +78,7 @@ def check_project(
     config_filename: str = "site.yaml",
 ) -> BuildResult:
     """Validates the project (YAML, ODT files, ids, references) without
-    writing anything to disk -- same as `build_project`, but with
-    `dry_run=True`. `result.generated_files` is always empty here; use
-    `result.pages` / `result.posts` / `result.diagnostics` instead.
+    writing anything to disk.
     """
     return run_build(
         project_root,
@@ -135,9 +105,6 @@ def clean_project(
 ) -> CleanResult:
     """Removes the generated site (`config.output_dir`) and, optionally,
     the incremental conversion cache.
-
-    Raises AsteriaError if site.yaml itself can't be read -- it's needed
-    to know where the output directory even is.
     """
     config = load_config(project_root / "source" / config_filename)
     output_removed = config.output_dir.exists()
@@ -151,29 +118,17 @@ def clean_project(
 
 
 def clear_project_cache(project_root: Path) -> bool:
-    """Removes just the incremental conversion cache
-    (`.asteria-cache.json`), leaving any already-generated output in
-    place. Returns whether a cache file actually existed to remove."""
+    
     return clear_cache(project_root)
 
 
 def create_new_project(target_dir: Path) -> list[str]:
-    """Scaffolds a new Asteria project at `target_dir` (created if it
-    doesn't exist yet).
-
-    Raises AsteriaError if the directory already exists and isn't empty.
-    Returns the created files' paths, relative to `target_dir`.
-    """
+    
     return create_project(target_dir)
 
 
 def reset_project_theme(project_root: Path) -> Path:
     """Overwrites `source/themes/minimal` with Asteria's bundled
     'minimal' theme, discarding any local edits to it.
-
-    Unlike the CLI's `reset-theme` command, this never prompts for
-    confirmation -- a UI that wants one (e.g. a GTK confirmation dialog)
-    should ask the user itself before calling this. Raises AsteriaError
-    if the bundled theme is missing (a broken installation).
     """
     return _reset_bundled_theme(project_root)

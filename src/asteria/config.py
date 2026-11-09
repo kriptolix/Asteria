@@ -91,9 +91,7 @@ DEFAULTS: dict[str, Any] = {
 
 
 def deep_merge(base: dict, override: dict) -> dict:
-    """Recursively merges `override` on top of `base`. Public (no leading
-    underscore) because it's also used by theme_config.load_theme_config
-    to merge site.yaml's `theme.params` onto theme.yaml — see there.
+    """Recursively merges `override` on top of `base`.
     """
     result = dict(base)
     for key, value in override.items():
@@ -174,29 +172,23 @@ class SiteConfig:
     @property
     def nav_config(self) -> list[Any]:
         """Raw `nav:` entries from site.yaml, consumed by nav.build_nav.
-        Lives here (not in theme.yaml) because it references page/post
-        ids, which is site data — see the note on DEFAULTS above."""
+        """
         return self.data.get("nav", [])
 
     @property
     def menu_config(self) -> list[Any]:
-        """Raw `menu:` entries from site.yaml, consumed by
-        build._build_menu. Same rationale as `nav_config`."""
+        """Raw `menu:` entries from site.yaml."""
         return self.data.get("menu", [])
 
     @property
     def social_config(self) -> list[Any]:
-        """Raw `social:` entries from site.yaml, consumed by
-        social.build_social_links."""
+        """Raw `social:` entries from site.yaml."""
         return self.data.get("social", [])
 
     @property
     def theme_params(self) -> dict[str, Any]:
         """Site-level overrides for theme-exclusive params, deep-merged
-        onto theme.yaml by theme_config.load_theme_config. This is the
-        escape hatch that lets a theme keep its own private config keys
-        (colors, layout switches, ...) while still letting the site
-        author tweak them without editing the theme itself."""
+        onto theme."""
         return self.data.get("theme", {}).get("params", {})
 
     @property
@@ -225,8 +217,7 @@ class SiteConfig:
     @property
     def i18n_string_overrides(self) -> dict[str, Any]:
         """Site-level override/extension for the theme's UI string
-        translations (`i18n.yaml` inside the theme directory) — see
-        i18n_strings.load_theme_i18n."""
+        translations."""
         return self.data["i18n"].get("strings") or {}
 
     @property
@@ -252,12 +243,8 @@ class SiteConfig:
 
     @property
     def search_enabled(self) -> bool:
-        """Controla a geração de `search-index.json` (e variantes por
-        idioma, ex: `pt-search-index.json`) — um array JSON de
-        `{title, url, date, excerpt}` para cada page/post, consumido por
-        JS de busca client-side em temas que esperam esse formato. O
-        Asteria não fornece UI/JS de busca; só o índice de dados — ver
-        build._write_search_index."""
+        """Controls the generation of `search-index.json` (and language-specific
+            variants, e.g., `pt-search-index.json`)."""
         return bool(self.data["search"].get("enabled", True))
 
     @property
@@ -286,11 +273,7 @@ def load_config(config_path: Path) -> SiteConfig:
 
 
 def reset_theme(project_root: Path) -> Path:
-    """Restores the bundled "minimal" theme to
-    `<project_root>/source/themes/minimal`, overwriting any local edits
-    to files the bundled theme also ships. Creates `source/themes/`
-    (and `source/`, if somehow missing) when it doesn't exist yet.
-    """
+   
     if not _BUNDLED_MINIMAL_THEME_DIR.exists():
         raise AsteriaError(
             f"Bundled theme not found at {_BUNDLED_MINIMAL_THEME_DIR} "

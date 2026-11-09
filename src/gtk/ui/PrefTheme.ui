@@ -23,18 +23,9 @@
               <object class="AdwActionRow">
                 <property name="title" translatable="yes">Theme:</property>
                 <child type="suffix">
-                  <object class="GtkDropDown" id="_themes_dropdown">
+                  <object class="GtkDropDown" id="_dropdown_theme">
                     <property name="width-request">200</property>
-                    <property name="valign">3</property>
-                    <property name="model">
-                      <object class="GtkStringList">
-                        <items>
-                          <item>Standart</item>
-                          <item>Modern Blog</item>
-                          <item>Wiki Page</item>
-                        </items>
-                      </object>
-                    </property>
+                    <property name="valign">3</property>                    
                   </object>
                 </child>
               </object>
@@ -43,18 +34,9 @@
               <object class="AdwActionRow">
                 <property name="title" translatable="yes">Variant:</property>
                 <child type="suffix">
-                  <object class="GtkDropDown" id="_variant_dropdown">
+                  <object class="GtkDropDown" id="_dropdown_variant">
                     <property name="width-request">200</property>
                     <property name="valign">3</property>
-                    <property name="model">
-                      <object class="GtkStringList">
-                        <items>
-                          <item>Light</item>
-                          <item>Dark</item>
-                          <item>Pink</item>
-                        </items>
-                      </object>
-                    </property>
                   </object>
                 </child>
               </object>
@@ -72,8 +54,7 @@
                     <style>
                       <class name="body"/>
                       <class name="dimmed"/>
-                    </style>
-                    
+                    </style>                    
                   </object>
                 </child>
                 <child>
@@ -91,12 +72,11 @@
                     <style>
                       <class name="body"/>
                       <class name="dimmed"/>
-                    </style>
-                    
+                    </style>                    
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton" id="_i18b_button">
+                  <object class="GtkButton" id="_i18n_button">
                     <property name="label" translatable="yes">Theme translation file</property>
                     <property name="valign">3</property>
                     <property name="halign">3</property>

@@ -2,6 +2,13 @@ from gi.repository import Gtk, Gio, GLib
 
 import threading
 from typing import Callable
+from enum import Enum
+
+
+class Directory(Enum):
+    PAGES = "pages"
+    POSTS = "posts"
+    COVERS = "covers"
 
 
 def create_action(action_group: Gio.SimpleActionGroup, prefix: str,

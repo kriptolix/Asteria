@@ -402,17 +402,36 @@ a.tag, a.category {
 .social-link {
   color: var(--color-muted);
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: color 0.15s ease;
 }
 
-.social-link img {
+/* Aplica o tamanho fixo tanto para a imagem quanto para as iniciais */
+.social-link img,
+.social-link .social-initials {
   width: 24px;
   height: 24px;
   display: block;
 }
 
-.social-link:hover { color: var(--color-accent); }
+/* Estilo específico do círculo para as iniciais customizadas */
+.social-link .social-initials {
+  border-radius: 50%;
+  background-color: var(--color-border, #e2e8f0);
+  color: var(--color-text, #1a202c);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  /* Garante que o texto fique centralizado perfeitamente */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.social-link:hover { 
+  color: var(--color-accent); 
+}
 /* ==========================================================================
    Responsivo
    ========================================================================== */

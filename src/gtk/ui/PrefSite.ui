@@ -14,31 +14,58 @@
         <child>
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Main Settings</property>
-            <property name="description" translatable="yes">Manage user data related settings</property>
+            <property name="description" translatable="yes">Manages the site's core settings</property>
             <property name="margin-top">10</property>
             <property name="margin-bottom">10</property>
             <property name="margin-end">10</property>
             <property name="margin-start">10</property>
             <child>
               <object class="AdwActionRow">
-                <property name="title" translatable="yes">Site Title:*</property>
+                <property name="title" translatable="yes">Title:*</property>
                 <child type="suffix">
-                  <object class="GtkEntry">
+                  <object class="GtkEntry" id="_site_title">
                     <property name="valign">3</property>
                     <property name="width-request">200</property>
+                    <property name="xalign">0.5</property>
                   </object>
                 </child>
               </object>
             </child>
             <child>
               <object class="AdwActionRow">
-                <property name="title" translatable="yes">Site Url:</property>
+                <property name="title" translatable="yes">Description:</property>
+                <child type="suffix">
+                  <object class="GtkEntry" id="_site_description">
+                    <property name="valign">3</property>
+                    <property name="width-request">200</property>
+                    <property name="xalign">0.5</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Url:</property>
                 <property name="tooltip-text" translatable="yes">If you dont have it yet leave blank</property>
                 <child type="suffix">
-                  <object class="GtkEntry">
+                  <object class="GtkEntry" id="_site_url">
                     <property name="valign">3</property>
                     <property name="placeholder-text" translatable="yes">www.my-site.com</property>
                     <property name="width-request">200</property>
+                    <property name="xalign">0.5</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Language:</property>
+                <property name="tooltip-text" translatable="yes">If you dont have it yet leave blank</property>
+                <child type="suffix">
+                  <object class="GtkEntry" id="_site_lang">
+                    <property name="valign">3</property>
+                    <property name="width-request">200</property>
+                    <property name="xalign">0.5</property>
                   </object>
                 </child>
               </object>
@@ -46,43 +73,38 @@
             <child>
               <object class="AdwActionRow">
                 <property name="title" translatable="yes">Home Page:</property>
+                <property name="tooltip-text" translatable="yes">the website's home page</property>
                 <child type="suffix">
-                  <object class="GtkDropDown">
-                    <property name="width-request">200</property>
-                    <property name="valign">3</property>
-                    <property name="model">
-                      <object class="GtkStringList" id="list">
-                        <items>
-                          <item>Blog</item>
-                          <item>Wellcome</item>
-                          <item>hippo page</item>
-                          <item>Duck long long long long loong history</item>
-                          <item>Dodo count</item>
-                        </items>
+                  <object class="GtkBox">
+                    <property name="spacing">10</property>
+                    <property name="margin-bottom">5</property>
+                    <property name="margin-top">5</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="homogeneous">true</property>
+                        <style>
+                          <class name="linked"/>
+                        </style>
+                        <child>
+                          <object class="GtkButton" id="_choose_button">
+                            <property name="icon-name" translatable="yes">folder-open-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Chosse a page</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="_blog_button">
+                            <property name="icon-name" translatable="yes">view-list-symbolic</property>
+                            <property name="tooltip-text" translatable="yes">Use "Blog"</property>
+                          </object>
+                        </child>
                       </object>
-                    </property>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="AdwActionRow">
-                <property name="title" translatable="yes">Site Language:</property>
-                <property name="tooltip-text" translatable="yes">The default language of the site</property>
-                <child type="suffix">
-                  <object class="GtkDropDown">
-                    <property name="valign">3</property>
-                    <property name="width-request">80</property>
-                    <property name="model">
-                      <object class="GtkStringList" id="list2">
-                        <items>
-                          <item>en</item>
-                          <item>pt-Br</item>
-                          <item>es</item>
-                          <item>fr</item>
-                        </items>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="_site_home">
+                        <property name="valign">3</property>
+                        <property name="xalign">0.5</property>
                       </object>
-                    </property>
+                    </child>
                   </object>
                 </child>
               </object>

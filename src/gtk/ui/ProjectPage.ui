@@ -4,14 +4,14 @@
   <template class="ProjectPage" parent="AdwNavigationPage">
     <property name="title" translatable="yes">Project Page</property>
     <property name="child">
-      <object class="AdwNavigationSplitView" id="_project_view">
+      <object class="AdwNavigationSplitView">
         <property name="min-sidebar-width">350</property>
         <property name="sidebar">
-          <object class="Sidebar">            
+          <object class="Sidebar" id="_sidebar">            
           </object>
         </property>
         <property name="content">
-          <object class="AdwNavigationPage" id="_content_view">
+          <object class="AdwNavigationPage" id="_content">
             <property name="title" translatable="yes">Content</property>
             <property name="tag">content</property>            
           </object>

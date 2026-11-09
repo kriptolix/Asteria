@@ -4,13 +4,23 @@
    still resolves correctly if fingerprinting is on). Renders nothing at
    all when `links` is empty, so a caller never needs its own
    `{% if site.social %}` guard around this. #}
+   
 {% macro render_social_links(links) %}
 {% if links %}
+{# Lista de plataformas que possuem SVG dedicado #}
+{% set known_platforms = ['github', 'twitter', 'linkedin', 'mastodon', 'youtube'] %}
+
 <div class="social-links">
     {% for item in links %}
-    <a href="{{ item.url }}" class="social-link" aria-label="{{ item.label }}" title="{{ item.label }}"
-        rel="me noopener">
-        <img src="{{ asset('/images/' ~ (item.platform | lower) ~ '.svg') }}" alt="{{ item.label }}">
+    {% set plat = item.platform | lower %}
+    <a href="{{ item.url }}" class="social-link" aria-label="{{ item.label }}" title="{{ item.label }}" rel="me noopener">
+        {% if plat in known_platforms %}
+            <img src="{{ asset('/images/' ~ plat ~ '.svg') }}" alt="{{ item.label }}">
+        {% else %}
+            <span class="social-initials" aria-hidden="true">
+                {{ item.platform[:2] | upper }}
+            </span>
+        {% endif %}
     </a>
     {% endfor %}
 </div>
