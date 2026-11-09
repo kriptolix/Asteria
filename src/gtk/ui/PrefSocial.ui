@@ -20,39 +20,30 @@
             <property name="margin-end">10</property>
             <property name="margin-start">10</property>
             <child>
-              <object class="GtkBox" id="add_button">
-                <child>
-                  <object class="GtkButton">
-                    <property name="child">
-                      <object class="GtkBox">
-                        <property name="spacing">15</property>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="label">Add a link</property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="icon-name">list-add-symbolic</property>
-                          </object>
-                        </child>
-                      </object>
-                    </property>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Add a link</property>
+                <child type="suffix">
+                  <object class="GtkButton" id="_add_button">
+                    <property name="valign">3</property>
+                    <property name="icon-name">list-add-symbolic</property>
                   </object>
                 </child>
-                <child>
-                  <object class="GtkButton" id="_trash_button">
-                    <property name="icon-name">user-trash-symbolic</property>
-                    <property name="focusable">false</property>
-                    <property name="halign">2</property>
-                    <property name="hexpand">true</property>
-                    <property name="tooltip-text">Drag a link to here to delet it</property>
-                    <style>
-                      <class name="circular"/>
-                      <class name="error"/>
-                    </style>
-                  </object>
-                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="_trash_button">
+                <property name="icon-name">user-trash-symbolic</property>
+                <property name="focusable">false</property>
+                <property name="halign">2</property>
+                <property name="valign">3</property>
+                <property name="hexpand">true</property>
+                <property name="tooltip-text" translatable="yes">Drag a link to here to delet it</property>
+                <property name="margin-top">10</property>
+                <property name="margin-end">13</property>
+                <style>
+                  <class name="circular"/>
+                  <class name="error"/>
+                </style>
               </object>
             </child>
             <child>

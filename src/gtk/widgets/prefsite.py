@@ -21,7 +21,8 @@ class PrefSite(Adw.PreferencesGroup):
     def __init__(self):
         super().__init__()
 
-        self._app = Gio.Application.get_default()        
+        self._app = Gio.Application.get_default()
+        self._config = None        
 
         self.title_buffer = self._site_title.get_buffer()
         self.url_buffer = self._site_url.get_buffer()
@@ -50,12 +51,18 @@ class PrefSite(Adw.PreferencesGroup):
 
     def set_site_config(self):
 
-        config = self._app.project_config.site.data["site"]        
+        self._config = self._app.project_config.site.data["site"]        
 
-        self.title_buffer.set_text(config["title"], -1)
-        self.url_buffer.set_text(config["url"], -1)
-        self.home_buffer.set_text(config["home_page"], -1)
-        self.lang_buffer.set_text(config["language"], -1)    
+        self.title_buffer.set_text(self._config["title"], -1)
+        self.url_buffer.set_text(self._config["url"], -1)
+        self.home_buffer.set_text(self._config["home_page"], -1)
+        self.lang_buffer.set_text(self._config["language"], -1)
+
+    def get_site_config(self):
+
+        self._config["title"] = self.title_buffer.get_text()
+
+        print(self._config["title"])    
 
    
       

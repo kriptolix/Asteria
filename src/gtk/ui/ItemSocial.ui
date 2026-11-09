@@ -2,84 +2,79 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <template class="ItemSocial" parent="AdwActionRow">
-    <child type="suffix">
+    <child type="preffix">
       <object class="GtkBox">
-        <property name="orientation">1</property>
-        <property name="spacing">5</property>
+        <property name="margin-start">10</property>
+        <property name="margin-end">10</property>
         <property name="margin-top">10</property>
         <property name="margin-bottom">10</property>
         <child>
           <object class="GtkBox">
+            <property name="orientation">1</property>
             <property name="spacing">5</property>
             <child>
-              <object class="GtkLabel">
-                <property name="label" translatable="yes">Platform:</property>
-                <property name="hexpand">true</property>
-                <property name="halign">1</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkDropDown" id="_patform">
-                <property name="width-request">130</property>
-                <property name="model">
-                  <object class="GtkStringList">
-                    <items>
-                      <item>Custom</item>
-                      <item>Discord</item>
-                      <item>E-mail</item>
-                      <item>Facebook</item>
-                      <item>GitHub</item>
-                      <item>GitLab</item>
-                      <item>Gmail</item>
-                      <item>Instagram</item>
-                      <item>Mastodon</item>
-                      <item>RSS</item>
-                      <item>Telegram</item>
-                      <item>X</item>
-                      <item>Youtube</item>
-                    </items>
+              <object class="GtkBox">
+                <property name="spacing">5</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Platform:</property>
+                    <property name="hexpand">true</property>
+                    <property name="halign">1</property>
                   </object>
-                </property>
+                </child>
+                <child>
+                  <object class="GtkDropDown" id="_platform">
+                    <property name="width-request">130</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="spacing">5</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Text:</property>
+                    <property name="halign">1</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="_label">
+                    <property name="placeholder-text" translatable="yes">Choose a label</property>
+                    <property name="xalign">0.5</property>
+                    <property name="margin-start">5</property>
+                    <property name="hexpand">true</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="spacing">5</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Link:</property>
+                    <property name="halign">1</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="_url">
+                    <property name="placeholder-text" translatable="yes">add a link</property>
+                    <property name="xalign">0.5</property>
+                    <property name="hexpand">true</property>
+                    <property name="margin-start">5</property>
+                  </object>
+                </child>
               </object>
             </child>
           </object>
         </child>
         <child>
-          <object class="GtkBox">
-            <property name="spacing">5</property>
-            <child>
-              <object class="GtkLabel">
-                <property name="label" translatable="yes">Text:</property>
-                <property name="halign">1</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkEntry" id="_text">
-                <property name="placeholder-text" translatable="yes">Choose a label</property>
-                <property name="xalign">0.5</property>
-                <property name="margin-start">5</property>
-                <property name="hexpand">true</property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="spacing">5</property>
-            <child>
-              <object class="GtkLabel" id="_link">
-                <property name="label" translatable="yes">Link:</property>
-                <property name="halign">1</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkEntry">
-                <property name="placeholder-text" translatable="yes">add a link</property>
-                <property name="xalign">0.5</property>
-                <property name="hexpand">true</property>
-                <property name="margin-start">5</property>
-              </object>
-            </child>
+          <object class="GtkImage" id="_drag_image">
+            <property name="icon-name">list-drag-handle-symbolic</property>
+            <property name="margin-end">0</property>
+            <property name="margin-start">10</property>
+            <property name="valign">3</property>
           </object>
         </child>
       </object>

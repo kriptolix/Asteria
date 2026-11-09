@@ -11,6 +11,8 @@ class PrefMenu(Adw.PreferencesGroup):
     __gtype_name__ = 'PrefMenu'
 
     _add_button = Gtk.Template.Child()
+    _blog_button = Gtk.Template.Child()
+    _trash_button = Gtk.Template.Child()
     _menu_list = Gtk.Template.Child()    
 
     def __init__(self):
@@ -19,7 +21,13 @@ class PrefMenu(Adw.PreferencesGroup):
         self._drag_coords = [0, 0]
         self._app = Gio.Application.get_default()        
 
-        self._add_button.connect("clicked", self._add_page_button)    
+        self._add_button.connect("clicked", self._add_page_button)
+        self._blog_button.connect("clicked", self._add_blog_button)
+
+        drop_target = Gtk.DropTarget.new(Gtk.ListBoxRow, Gdk.DragAction.MOVE)
+        drop_target.connect("drop", self._on_trash_drop)
+
+        self._trash_button.add_controller(drop_target)    
 
 
     def set_menu(self):  # adicionar verificação se o item existe
@@ -27,6 +35,26 @@ class PrefMenu(Adw.PreferencesGroup):
 
         for item in menu:
             self._add_page(item['page'])
+
+
+    def get_menu(self):
+        
+        social = []
+
+        row = self._menu_list.get_first_child()
+
+        while row:
+            widget = row.get_child()
+
+            social.append(row.get_title())
+
+            row = row.get_next_sibling()
+
+        print(social)
+
+    def _add_blog_button(self, button):
+        self._add_page("blog")
+
 
     def _add_page_button(self, button):
 
@@ -41,6 +69,7 @@ class PrefMenu(Adw.PreferencesGroup):
 
         choose_file(self._app.window, on_chosen, pages)
 
+
     def _add_page(self, name):
         
         widget = ItemMenu(name)
@@ -48,16 +77,15 @@ class PrefMenu(Adw.PreferencesGroup):
 
         drop_controller = Gtk.DropControllerMotion()
         drag_source = Gtk.DragSource(actions=Gdk.DragAction.MOVE)
-        drop_target = Gtk.DropTarget.new(Gtk.ListBoxRow, Gdk.DragAction.MOVE)
-
-        widget.add_controller(drag_source)
-        widget.add_controller(drop_target)
-        widget.add_controller(drop_controller)
+        drop_target = Gtk.DropTarget.new(Gtk.ListBoxRow, Gdk.DragAction.MOVE)        
 
         drag_source.connect("prepare", self._on_prepare)
-        drag_source.connect("drag-begin", self._on_drag_begin)  
+        drag_source.connect("drag-begin", self._on_drag_begin)
+        drop_target.connect("drop", self._on_drop)
 
-        drop_target.connect("drop", self._on_drop) 
+        widget._drag_image.add_controller(drag_source)
+        widget.add_controller(drop_target)
+        widget.add_controller(drop_controller) 
     
     
     def _on_prepare(self, source, x, y):
@@ -65,7 +93,7 @@ class PrefMenu(Adw.PreferencesGroup):
         self._drag_coords[0] = x
         self._drag_coords[1] = y
 
-        row = source.get_widget()
+        row = source.get_widget().get_ancestor(Gtk.ListBoxRow)
 
         value = GObject.Value()
         value.init(Gtk.ListBoxRow)
@@ -73,12 +101,13 @@ class PrefMenu(Adw.PreferencesGroup):
 
         return Gdk.ContentProvider.new_for_value(value)
 
+
     def _on_drag_begin(self, source, drag_object):
 
-        row = source.get_widget()
-        title = row.get_title()      
+        widget = source.get_widget().get_ancestor(Gtk.ListBoxRow)
+        title = widget.get_title()      
 
-        drag_widget = ItemMenu(title)
+        drag_widget = ItemMenu(title)        
 
         icon = Gtk.DragIcon.get_for_drag(drag_object)
         icon.set_child(drag_widget)
@@ -88,20 +117,25 @@ class PrefMenu(Adw.PreferencesGroup):
 
     def _on_drop(self, drop, drag_target, x, y):      
 
-        drop_target = drop.get_widget()
+        target_row = drop.get_widget()
+        source_row = drag_target       
 
-        if (not drag_target or not drop_target
-                or drag_target == drop_target):
+        if not source_row or not target_row or source_row == target_row:
+            return False
 
-            return False         
-        
-        source_row = drag_target
-        target_row = drop_target              
+        position = target_row.get_index()             
 
-        self._menu_list.remove(source_row)   
-        
-        position = target_row.get_index()                 
+        self._menu_list.remove(source_row)  
+        self._menu_list.insert(source_row, position)
 
-        self._menu_list.insert(source_row, position)       
+        return True
+
+
+    def _on_trash_drop(self, drop, source_row, x, y):
+    
+        if not source_row:
+            return False
+
+        self._menu_list.remove(source_row)
 
         return True

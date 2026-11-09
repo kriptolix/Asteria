@@ -1,5 +1,5 @@
 from gi.repository import Adw
-from gi.repository import Gtk
+from gi.repository import Gtk, Gio
 
 from .prefsite import PrefSite
 from .preffiles import PrefFiles
@@ -23,7 +23,10 @@ class Sidebar(Adw.NavigationPage):
     def __init__(self):
         super().__init__()
 
+        self._app = Gio.Application.get_default()
+
         self._close_button.set_action_name("app.quit")
+        self._update_button.connect("clicked", self._app.update_project)
 
 
     def set_config(self):
@@ -32,3 +35,10 @@ class Sidebar(Adw.NavigationPage):
         self._pref_theme.set_dropdown_theme()
         self._pref_theme.set_dropdown_variant()
         self._pref_menu.set_menu()
+        self._pref_social.set_social()
+
+    def get_config(self):
+
+        self._pref_menu.get_menu()
+        self._pref_social.get_social()
+        self._pref_site.get_site_config()

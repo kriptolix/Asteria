@@ -129,8 +129,9 @@ class AsteriaApplication(Adw.Application):
         choose_directory(self.window, _on_chosen)
 
 
-    def update_project(self):
-        pass
+    def update_project(self, button):
+        self.window._projectpage._sidebar.get_config()
+        self.project_config.save()
         
 
 
