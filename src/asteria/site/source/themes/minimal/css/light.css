@@ -405,6 +405,7 @@ a.tag, a.category {
   align-items: center;
   justify-content: center;
   transition: color 0.15s ease;
+  filter: brightness(0);
 }
 
 /* Aplica o tamanho fixo tanto para a imagem quanto para as iniciais */

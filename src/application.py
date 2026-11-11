@@ -27,12 +27,14 @@ gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 gi.require_version('WebKit', '6.0')
 
-from gi.repository import Gtk, Gio, Adw
+from gi.repository import Gtk, Gio, Adw, GLib
 from src.gtk.widgets.mainwindow import MainWindow
 from src.gtk.widgets.dialogcreate import DialogCreate
 from .projecsettings import ProjectSettings
+from .asteria.api import create_new_project
 
 from .iooperations import choose_directory
+from .util import create_action
 
 class AsteriaApplication(Adw.Application):
     """The main application singleton class."""
@@ -41,16 +43,17 @@ class AsteriaApplication(Adw.Application):
         super().__init__(application_id='io.github.Kriptolix.Asteria',
                          flags=Gio.ApplicationFlags.DEFAULT_FLAGS,
                          resource_base_path='/io/github/Kriptolix/Asteria')
-        self.create_action('quit', lambda *_: self.quit(), ['<control>q'])
-        self.create_action('about', self.on_about_action)
-        self.create_action('preferences', self.on_preferences_action)
+        
+        create_action(self, "app", "quit", self._on_actions,
+                      ['<primary>q'])
+        create_action(self, "app", 'new',
+                      self._on_actions, ['<Ctrl>n'])
+        create_action(self, "app", 'open',
+                      self._on_actions, ['<Ctrl>o'])
+        create_action(self, "app", 'about', self._on_about_action, None, None)
 
         self.project_dir = None
-        self.project_config = None
-
-        # print(self.project_dir.exists())
-        # print(self.project_dir.is_dir())
-        # print(self.project_dir.is_file())        
+        self.project_config = None              
 
     def do_activate(self):
         """Called when the application is activated.
@@ -62,41 +65,9 @@ class AsteriaApplication(Adw.Application):
         if not self.window:
             self.window = MainWindow(app=self)
         self.window.present()
+       
 
-        self.window._navigation_view
-
-    def on_about_action(self, *args):
-        """Callback for the app.about action."""
-        about = Adw.AboutDialog(application_name='Asteria',
-                                application_icon='io.github.Kriptolix.Asteria',
-                                developer_name='k',
-                                version='0.1.0',
-                                # Translators: Replace "translator-credits" with your name/username, and optionally an email or URL.
-                                translator_credits = _('translator-credits'),
-                                developers=['k'],
-                                copyright='© 2026 k')
-        about.present(self.props.active_window)
-
-    def on_preferences_action(self, widget, _):
-        """Callback for the app.preferences action."""
-        print('app.preferences action activated')
-
-    def create_action(self, name, callback, shortcuts=None):
-        """Add an application action.
-
-        Args:
-            name: the name of the action
-            callback: the function to be called when the action is
-              activated
-            shortcuts: an optional list of accelerators
-        """
-        action = Gio.SimpleAction.new(name, None)
-        action.connect("activate", callback)
-        self.add_action(action)
-        if shortcuts:
-            self.set_accels_for_action(f"app.{name}", shortcuts)
-
-    def setup_project(self):
+    def new_project(self):
 
         def _create_project(items):
             project_name = items[0]
@@ -105,7 +76,7 @@ class AsteriaApplication(Adw.Application):
 
             create_new_project(project_path) #the lib use Path to be S.O. agnostic
             self.project_dir = project_gdir.get_child(project_name)
-            # self.project_dir = parent_dir.get_child("sitedev")
+            
             self.load_config()
             
         dialog = DialogCreate(self.window, _create_project)
@@ -116,10 +87,9 @@ class AsteriaApplication(Adw.Application):
         project_path = Path(self.project_dir.get_path())
         self.project_config = ProjectSettings.load(project_path)
 
-        self.window._projectpage._sidebar.set_config()
-        
-        self.window.go_to_project_page(None, None)
-        self.window._projectpage.create_server()  
+        self.window._sidebar.set_config() 
+        self.window._content.create_server() 
+        self.window._content.create_webview() 
 
     def open_project(self):
         def _on_chosen(gdir):
@@ -130,8 +100,52 @@ class AsteriaApplication(Adw.Application):
 
 
     def update_project(self, button):
-        self.window._projectpage._sidebar.get_config()
+        self.window._sidebar.get_config()
         self.project_config.save()
+        self.window._content.site_rebuild()
+
+
+    def _on_quit_button(self, window):
+    
+            self.activate_action("quit",
+                                 GLib.Variant.new_boolean(True))
+            return True
+            
+    
+    def _on_shortcuts(self, *args):
+
+        builder = Gtk.Builder.new_from_resource(
+            '/io/github/kriptolix/Asteria/src/gtk/ui/Shortcuts.ui'
+        )
+
+        shortcuts = builder.get_object("shortcuts")
+        shortcuts.set_transient_for(self.window)
+        shortcuts.present()
+
+
+    def _on_about_action(self, *args):
+
+        about = Adw.AboutDialog.new_from_appdata(
+            '/io/github/kriptolix/Asteria'
+            '/data/io.github.Kriptolix.Asteria.metainfo.xml.in',
+            '0.8.0'
+        )
+
+        about.set_translator_credits(_('translator-credits'))
+        about.present(self.props.active_window)
+
+
+    def _on_actions(self, action: Gio.SimpleAction, parameter):               
+
+        action_name = action.get_name()
+
+        match action_name:
+            case "open":
+                self.open_project()
+            case "new":
+                self.new_project()            
+            case "quit":
+                quit()
         
 
 

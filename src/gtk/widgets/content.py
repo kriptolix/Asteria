@@ -7,12 +7,11 @@ from ...asteria.server import DevServer
 from .sidebar import Sidebar
 
 @Gtk.Template(resource_path='/io/github/Kriptolix/Asteria/'
-              'src/gtk/ui/ProjectPage.ui')
-class ProjectPage(Adw.NavigationPage):
-    __gtype_name__ = 'ProjectPage'
-
-    _sidebar = Gtk.Template.Child()
-    _content = Gtk.Template.Child()    
+              'src/gtk/ui/Content.ui')
+class Content(Adw.NavigationPage):
+    __gtype_name__ = 'Content'
+    
+    _stack = Gtk.Template.Child()    
 
     def __init__(self):
         super().__init__()
@@ -20,7 +19,7 @@ class ProjectPage(Adw.NavigationPage):
         self._app = Gio.Application.get_default()
         self._webview = None
     
-    def _create_webview(self):
+    def create_webview(self):
 
         self._webview = WebKit.WebView.new()
         self._webview.set_hexpand(True)        
@@ -39,13 +38,16 @@ class ProjectPage(Adw.NavigationPage):
 
         # self._webview.set_cors_allowlist("*") 
          
-        self._content.set_child(self._webview)       
+        self._stack.add_child(self._webview)
+        self._stack.set_visible_child(self._webview)       
+
 
     def _on_context_menu(self, webview, context_menu, event):
 
         context_menu.remove_all()
 
         return True  # False = show, True = Hide
+
 
     def create_server(self):
 
@@ -58,31 +60,55 @@ class ProjectPage(Adw.NavigationPage):
         
         threading.Thread(target=self._server.start, daemon=True).start()
 
+
     def site_rebuild(self):
-        threading.Thread(target=self.dev.rebuild, daemon=True).start()
+        threading.Thread(target=self._server.rebuild, daemon=True).start()
+
 
     def on_build_complete(self, result):
-        print("entrou")
-        GLib.timeout_add(100, self._load_preview_url)
-        print("lodou")        
+        
+        GLib.timeout_add(100, self._load_preview_url)              
         GLib.idle_add(self._safe_reload_ui, result)
-        print("buildou")
+        
     
     def on_build_error(self, error):
         GLib.idle_add(self._safe_show_error, error)
+
 
     def _load_preview_url(self):
         try:
             self._webview.load_uri("http://127.0.0.1:8000")
         except Exception as e:
-            print(f"Erro ao carregar URI no WebKit: {e}")
-        return False # Importante: retorna False para rodar apenas uma vez
+            print(f"Error loading URI in WebKit: {e}")
+        return False # Important: returns False so that it runs only once
+
 
     def _safe_reload_ui(self, result):
         
         self._webview.reload()
-        return False # Remove o idle_add da fila
+        return False # Removes the idle_add from the queue
+
 
     def _safe_show_error(self, error):
         print(f"Build error: {error}")
         return False
+    
+
+    def take_screenshot(self):
+        
+        def _on_finished(webview, result):
+            try:
+                surface = webview.get_snapshot_finish(result)
+                surface.write_to_png("/tmp/screenshot.png")
+                
+            except Exception as e:
+                print(f"Erro: {e}")
+        
+        ###
+
+        self._webview.get_snapshot(
+            WebKit.SnapshotRegion.VISIBLE,
+            WebKit.SnapshotOptions.NONE,
+            None,
+            _on_finished
+        )

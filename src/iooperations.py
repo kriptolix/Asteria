@@ -7,9 +7,9 @@ from dataclasses import asdict
 from pathlib import Path
 from collections.abc import Callable
 import yaml
-# from dacite import from_dict
 
-from .util import Directory
+from .projecsettings import ProjectSettings
+
 
 def ensure_parent(file: Gio.File) -> None:
     parent = file.get_parent()
@@ -22,7 +22,7 @@ def choose_directory(parent: Gtk.Window, callback: Callable) -> None:
 
     def _on_selected(dialog, result):
         try:
-            gdir = dialog.select_folder_finish(result)                       
+            gdir = dialog.select_folder_finish(result)                                   
             callback(gdir)
           
         except Exception as e:
@@ -122,52 +122,64 @@ def list_css_files(gfile: Gio.File) -> Gtk.StringList:
     return string_list
 
 
-def create_model(gdir):
-    
-    model = Gtk.StringList.new([])
+def ask_to_save(settings: ProjectSettings,
+                parent: Gtk.Window,
+                callback, app=None) -> None:
 
-  
+    def _dialog_response(dialog, response):
+        result = dialog.choose_finish(response)
 
+        match result:
+            case 1:
+                settings.save()
+                callback(parent)
+            case 2:
+                callback(parent)
+                
+    ###
 
-"""
-def load_config(path: str | Path):
-    file = Gio.File.new_for_path(str(path))
+    dialog = Gtk.AlertDialog()
+    dialog.set_message("Caution")
+    dialog.set_detail("Do you want to save before performing this action?")
+    dialog.set_modal(True)
+    dialog.set_buttons(["Cancel", "Do Not Save", "Save"])
 
-    if not file.query_exists():
-        return Config()
-
-    try:
-        success, contents, _etag = file.load_contents()
-
-        if not success:
-            return Config()
-
-        data = yaml.safe_load(contents.decode("utf-8")) or {}
-
-        # return from_dict(Config, data)
-
-    except (GLib.Error, UnicodeDecodeError, yaml.YAMLError, ValueError):
-        return Config()
+    dialog.choose(parent, None, _dialog_response)
 
 
-def save_config(config: Config, path: str | Path) -> None:
-    file = Gio.File.new_for_path(str(path))
+def load_from_path(settings: ProjectSettings, path: str) -> None:
 
-    data = yaml.safe_dump(
-        asdict(config),
-        allow_unicode=True,
-        sort_keys=False,
-        default_flow_style=False,
-    )
+    def on_loader_finished(loader, result, user_data=None):
+        try:
+            loader.load_finish(result)
+            print(f"File loaded from {path}")
+        except Exception as e:
+            print(f"Error loading: {e}")
+    ###
 
-    contents = data.encode("utf-8")
+    file = Gio.File.new_for_path(path)
+    loader = GtkSource.FileLoader.new(buffer, file)
+    loader.load_async(None, on_loader_finished, None)
 
-    file.replace_contents(
-        contents,
-        None,
-        False,
-        Gio.FileCreateFlags.REPLACE_DESTINATION,
-        None,
-    )
 
-"""
+def load_by_dialog(settings: ProjectSettings, parent: Gtk.Window) -> None:
+
+    def on_file_chosen(dialog, result, user_data=None):
+        try:
+            gfile = dialog.open_finish(result)
+            sfile = GtkSource.File.new()
+            sfile.set_location(gfile)
+            loader = GtkSource.FileLoader.new(buffer, sfile)
+            loader.load_async(1, None, None, None, None,
+                              lambda l, r, u: l.load_finish(r), None)
+            print(f"File loaded from {gfile.get_path()}")
+        except Exception as e:
+            print(f"Error loading via dialog: {e}")
+    ###
+
+    if settings.modified:
+        ask_to_save(settings, parent, load_by_dialog)
+        return
+
+    dialog = Gtk.FileDialog()
+    dialog.open(parent, None, on_file_chosen)

@@ -16,7 +16,8 @@ class PrefSite(Adw.PreferencesGroup):
     _choose_button = Gtk.Template.Child()
     _blog_button = Gtk.Template.Child()
     _site_home = Gtk.Template.Child()
-    _site_lang = Gtk.Template.Child()       
+    _site_lang = Gtk.Template.Child()
+    _expander = Gtk.Template.Child()       
 
     def __init__(self):
         super().__init__()
@@ -61,8 +62,11 @@ class PrefSite(Adw.PreferencesGroup):
     def get_site_config(self):
 
         self._config["title"] = self.title_buffer.get_text()
+        self._config["url"] = self.url_buffer.get_text() 
+        self._config["home_page"] = self.home_buffer.get_text() 
+        self._config["language"] = self.lang_buffer.get_text()
 
-        print(self._config["title"])    
+            
 
    
       

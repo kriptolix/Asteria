@@ -5,9 +5,9 @@
     <property name="margin-end">10</property>
     <property name="margin-start">10</property>
     <child>
-      <object class="AdwExpanderRow">
+      <object class="AdwExpanderRow" id="_expander">
         <property name="title" translatable="yes">Site</property>
-        <property name="expanded">true</property>
+        <property name="expanded">false</property>        
         <style>
           <class name="view-bg"/>
         </style>

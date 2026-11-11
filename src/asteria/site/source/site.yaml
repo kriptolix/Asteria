@@ -9,10 +9,10 @@ theme:
   name: "minimal"
 
 menu:
-  - page: "welcome"
-  - page: "blog"
+  - "welcome"
+  - "blog"
 
 social:
-  - platform: email
+  - platform: e-mail
     url: "mailto:contact@example.com"
     label: E-mail

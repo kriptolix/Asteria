@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="Content" parent="AdwNavigationPage">
+    <property name="title" translatable="yes">Contnet Page</property>
+    <child>
+      <object class="GtkStack" id="_stack">
+        <child>
+          <object class="AdwStatusPage">
+            <property name="title" translatable="yes">No site loaded yet</property>
+            <property name="description" translatable="yes">Create or open a site to se the preview</property>
+            <property name="icon-name">info-outline-symbolic</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

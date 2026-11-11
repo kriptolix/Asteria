@@ -31,26 +31,29 @@ class PrefMenu(Adw.PreferencesGroup):
 
 
     def set_menu(self):  # adicionar verificação se o item existe
-        menu = self._app.project_config.site.data["menu"]        
+        
+        menu = self._app.project_config.site.data["menu"]
+
+        print("menu list: ", menu)        
 
         for item in menu:
-            self._add_page(item['page'])
+            self._add_page(item)
 
 
     def get_menu(self):
-        
-        social = []
+
+        config = self._app.project_config.site.data
+        menu = []
 
         row = self._menu_list.get_first_child()
 
         while row:
-            widget = row.get_child()
-
-            social.append(row.get_title())
-
+            
+            menu.append(row.get_title())
             row = row.get_next_sibling()
+        
+        config["menu"] = menu
 
-        print(social)
 
     def _add_blog_button(self, button):
         self._add_page("blog")
@@ -60,7 +63,7 @@ class PrefMenu(Adw.PreferencesGroup):
 
         def on_chosen(gfile):
             if gfile:
-                name = gfile.get_basename()
+                name = gfile.get_basename().rsplit('.', 1)[0]
                 self._add_page(name)                
 
         ###          

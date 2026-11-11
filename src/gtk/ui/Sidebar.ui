@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk" version="4.0"/>
+  <requires lib="gtk" version="4.0" />
   <template class="Sidebar" parent="AdwNavigationPage">
     <property name="title" translatable="yes">Sidebar</property>
     <property name="width-request">400</property>
@@ -13,14 +13,26 @@
                 <property name="title">Asteria</property>
               </object>
             </property>
-            <child type="end">
-              <object class="GtkButton" id="_close_button">
-                <property name="icon-name">window-close-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Close</property>
+            <child>
+              <object class="GtkButton" id="_new_button">
+                <property name="icon-name">document-new-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Create a new site</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="_open_button">
+                <property name="icon-name">document-open-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Open a existent site</property>
               </object>
             </child>
             <child type="end">
-              <object class="GtkMenuButton">
+              <object class="GtkButton" id="_close_button">
+                <property name="icon-name">window-close-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Close Asteria</property>
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkMenuButton" id="_menu_button">
                 <property name="icon-name">open-menu-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Main Menu</property>
               </object>
@@ -28,7 +40,8 @@
             <child type="end">
               <object class="GtkButton" id="_update_button">
                 <property name="icon-name">revert-rtl-symbolic</property>
-                <property name="tooltip-text" translatable="yes">Visualize Changes</property>
+                <property name="tooltip-text" translatable="yes">Apply Changes</property>
+                <property name="sensitive">false</property>
                 <style>
                   <class name="suggested-action"/>
                 </style>
@@ -37,26 +50,22 @@
           </object>
         </child>
         <property name="content">
-          <object class="GtkBox">
-            <property name="orientation">1</property>
+          <object class="AdwPreferencesPage" id="_preferences">
+            <property name="sensitive">false</property>
             <child>
-              <object class="AdwPreferencesPage">
-                <child>
-                  <object class="PrefSite" id="_pref_site"></object>
-                </child>
-                <child>
-                  <object class="PrefTheme" id="_pref_theme"></object>
-                </child>
-                <child>
-                  <object class="PrefFiles" id="_pref_files"></object>
-                </child>
-                <child>
-                  <object class="PrefMenu" id="_pref_menu"></object>
-                </child>
-                <child>
-                  <object class="PrefSocial" id="_pref_social"></object>
-                </child>
-              </object>
+              <object class="PrefSite" id="_pref_site"></object>
+            </child>
+            <child>
+              <object class="PrefTheme" id="_pref_theme"></object>
+            </child>
+            <child>
+              <object class="PrefFiles" id="_pref_files"></object>
+            </child>
+            <child>
+              <object class="PrefMenu" id="_pref_menu"></object>
+            </child>
+            <child>
+              <object class="PrefSocial" id="_pref_social"></object>
             </child>
           </object>
         </property>

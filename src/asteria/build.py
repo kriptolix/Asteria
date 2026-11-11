@@ -19,6 +19,7 @@ from .document import Document, Page, Post, TocEntry
 from .errors import AsteriaError, Diagnostics
 from .feed import render_atom, render_rss
 from .i18n_strings import load_theme_i18n, translate
+from .menu import BLOG_KEY, build_menu, menu_references, resolve_page_reference
 from .nav import NavEntry, build_nav
 from .pagination import paginate
 from .references import (
@@ -92,11 +93,8 @@ def _assign_urls(config: SiteConfig, pages: list[Page], posts: list[Post]) -> No
 
 
 def _link_translations(documents: list[Document]) -> None:
-    """Preenche `doc.translations` com as demais versões (em outros
-    idiomas) de cada documento, agrupadas por `translation_key`. Chame
-    separadamente para `pages` e `posts` — uma página e um post nunca
-    devem ser considerados tradução um do outro, mesmo que, por
-    coincidência, compartilhem a mesma translation_key."""
+    """Populates `doc.translations` with the other versions 
+    (in other languages) of each document, grouped by `translation_key`.."""
     groups: dict[str, list[Document]] = {}
     for doc in documents:
         groups.setdefault(doc.translation_key, []).append(doc)
@@ -126,89 +124,6 @@ def _assign_prev_next(posts: list[Post]) -> None:
         for i, post in enumerate(ordered):
             post.previous = ordered[i - 1] if i > 0 else None
             post.next = ordered[i + 1] if i < len(ordered) - 1 else None
-
-
-def _resolve_page_reference(
-    ref: str,
-    pages_by_id: dict[str, Page],
-    pages_by_translation_key: dict[str, dict[str, Page]],
-    lang: str,
-    default_language: str,
-) -> Page | None:
-    """Resolves a page reference string (as used by `menu: - page: ...`
-    and `home_page:` in site.yaml) to a `Page`.
-    """
-    translations = pages_by_translation_key.get(ref)
-    if translations:
-        return (
-            translations.get(lang)
-            or translations.get(default_language)
-            or next(iter(translations.values()))
-        )
-    return pages_by_id.get(ref)
-
-
-def _build_menu(
-    menu_config: list[dict],
-    config: SiteConfig,
-    pages_by_id: dict[str, Page],
-    pages_by_translation_key: dict[str, dict[str, Page]],
-    lang: str,
-    diagnostics: Diagnostics,
-    theme_strings: dict[str, dict[str, str]],
-) -> list[dict[str, str]]:
-    """Builds the menu for a single language.
-    """
-    # "blog" is the one reserved keyword that means "the blog index" in
-    # `page:` (here) and `home_page:` (see run_build) — there's no
-    # separate url_prefix-based alias anymore, since the blog's URL is
-    # fully derived from `urls.posts` (see SiteConfig.blog_index_url).
-    blog_keys = {"blog"}
-    menu_items = []
-
-    for entry in menu_config:
-        page_id = entry.get("page")
-        title_override = entry.get("title")
-
-        if page_id in blog_keys:
-            url = prefix_lang(config.blog_index_url, lang, config.default_language)
-            # No page object to fall back to for a title here — see
-            # theme_strings in the docstring above.
-            title = title_override or translate(
-                theme_strings, "blog_menu_label", lang, config.default_language,
-                fallback="Blog",
-            )
-        else:
-            # translation_key is checked FIRST, exact id second — see
-            # _resolve_page_reference for the full rationale.
-            page = _resolve_page_reference(
-                page_id, pages_by_id, pages_by_translation_key,
-                lang, config.default_language,
-            )
-            if page is None:
-                diagnostics.warning(
-                    f"menu: page '{page_id}' not found (checked both as an "
-                    "exact page id and as a translation_key).",
-                    # `menu:` now lives in site.yaml, not theme.yaml — see
-                    # SiteConfig.menu_config.
-                    source="site.yaml",
-                )
-                url = "#"
-                # No resolved page to pull a title from — last-resort
-                # fallback to the raw reference string, same as before
-                # this fix.
-                title = title_override or page_id
-            else:
-                url = page.url
-                # title: (menu) > menu_title: (front matter) > title:
-                # (front matter) — see the "A menu entry's label..."
-                # paragraph in the docstring above. `page` was resolved
-                # for this specific `lang`, so both `.menu_title` and
-                # `.title` are already the right language's text.
-                title = title_override or page.menu_title or page.title
-        menu_items.append({"title": title, "url": url, "page_id": page_id})
-
-    return menu_items
 
 
 def _site_view_for_lang(
@@ -276,10 +191,8 @@ def _document_context(
         "post": doc,
         "content": Markup(doc.content_html),
         "breadcrumbs": breadcrumbs,
-        "theme_css": doc.variant or theme_ns["default_variant"],
         "canonical_path": doc.url,
         "og_type": "article" if doc.kind == "post" else "website",
-        "show_toc": theme_ns["sidebar_toc"] and doc.toc_enabled,
         "show_navigation": bool(site_view.nav) and doc.navigation_enabled,
         "lang": doc.lang or config.default_language,
     }
@@ -288,7 +201,7 @@ def _document_context(
 def _resolve_template_name(
     env, doc: Document, default_name: str, diagnostics: Diagnostics
 ) -> str:
-    """Resolve o template do tema a usar para este documento."""
+    
     name = doc.template or default_name
     if name == default_name:
         return name
@@ -397,24 +310,23 @@ def run_build(
     
     theme_config_raw = load_theme_config(config.theme_dir, config.theme_params)
     
-    if config.home_page != "blog":
-        menu_page_refs = {entry.get("page") for entry in config.menu_config}
-        if config.home_page not in menu_page_refs:
+    if config.home_page != BLOG_KEY:
+        if config.home_page not in menu_references(config.menu_config):
             diagnostics.warning(
                 f"home_page: '{config.home_page}' is not referenced by any "
-                "menu item (menu: - page: ...) in site.yaml. This may be "
-                "intentional (e.g. the home page is reached via a logo or "
-                "site title instead of a menu entry) — if it isn't, add a "
-                "matching 'page:' entry to menu: to keep them in sync.",
+                "item in menu: in site.yaml. This may be intentional (e.g. "
+                "the home page is reached via a logo or site title instead "
+                "of a menu entry) — if it isn't, add it to menu: to keep "
+                "them in sync.",
                 source="site.yaml",
             )
-    
+
     theme_strings = load_theme_i18n(config.theme_dir, config.i18n_string_overrides)
 
     menus_by_lang: dict[str, list[dict[str, str]]] = {
-        lang: _build_menu(
-            config.menu_config, config, pages_by_id,
-            pages_by_translation_key, lang, diagnostics, theme_strings,
+        lang: build_menu(
+            config.menu_config, config.default_language, config.blog_index_url,
+            pages_by_id, pages_by_translation_key, lang, diagnostics, theme_strings,
         )
         for lang in config.languages
     }
@@ -463,10 +375,7 @@ def run_build(
         )
 
     theme_ns: dict = dict(theme_config_raw)
-   
-    theme_ns.setdefault("sidebar_toc", True)
-    theme_ns.setdefault("default_variant", "light")
- 
+
     default_lang_data = lang_site_data.get(config.default_language)
     site_view = make_site_view(
         config,
@@ -577,7 +486,6 @@ def run_build(
                         "theme": theme_ns,
                         "posts": blog_page.items,
                         "pagination": blog_page,
-                        "theme_css": theme_ns["default_variant"],
                         "canonical_path": blog_page.url,
                         "og_type": "website",
                         "show_navigation": False,
@@ -643,7 +551,7 @@ def run_build(
     home_pages_by_lang: dict[str, Page] = {}
     if not is_blog_home:
       
-        home_page_default = _resolve_page_reference(
+        home_page_default = resolve_page_reference(
             config.home_page, pages_by_id, pages_by_translation_key,
             lang=config.default_language, default_language=config.default_language,
         )
@@ -692,7 +600,6 @@ def run_build(
             {
                 "site": site_view,
                 "theme": theme_ns,
-                "theme_css": theme_ns["default_variant"],
                 "canonical_path": "/404.html",
                 "og_type": "website",
                 "show_navigation": False,
@@ -753,7 +660,6 @@ def _write_taxonomy(
                 "theme": theme_ns,
                 "terms": terms,
                 "kind_label": kind_label,
-                "theme_css": theme_ns["default_variant"],
                 "canonical_path": index_url,
                 "og_type": "website",
                 "show_navigation": False,
@@ -779,7 +685,6 @@ def _write_taxonomy(
                     "term": term,
                     "posts": term.posts,
                     "kind_label": kind_label,
-                    "theme_css": theme_ns["default_variant"],
                     "canonical_path": term.url,
                     "og_type": "website",
                     "show_navigation": False,

@@ -6,7 +6,17 @@
     <property name="default-width">1280</property>
     <property name="default-height">650</property>
     <property name="content">
-      <object class="AdwNavigationView" id="_navigation_view"></object>
+      <object class="AdwNavigationSplitView">
+        <property name="min-sidebar-width">350</property>
+        <property name="sidebar">
+          <object class="Sidebar" id="_sidebar">            
+          </object>
+        </property>
+        <property name="content">
+          <object class="Content" id="_content">            
+          </object>
+        </property>
+      </object>
     </property>
   </template>
 </interface>

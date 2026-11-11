@@ -14,12 +14,10 @@ class PrefTheme(Adw.PreferencesGroup):
     _i18n_button = Gtk.Template.Child()     
 
     def __init__(self):
-        super().__init__()
-
-        self._theme_selected = None
-        self._theme_variant = None
+        super().__init__()    
 
         self._app = Gio.Application.get_default()
+        self._theme_selected = ""
 
         self._extra_button.connect("clicked", self._open_file)
         self._i18n_button.connect("clicked", self._open_file)
@@ -43,22 +41,23 @@ class PrefTheme(Adw.PreferencesGroup):
     def set_dropdown_theme(self):
         
         themes = self._app.project_dir.get_child("source").get_child("themes")
-        theme_name = self._app.project_config.site.data["theme"]["name"] 
+        theme_name = self._app.project_config.site.data["theme"]["name"]
+
+        self._theme_selected = theme_name 
         
         model = list_subdirectories(themes)
         self._dropdown_theme.set_model(model)
 
         self.select_dropdown_item(self._dropdown_theme, theme_name)
+    
 
-        self._theme_selected = self._dropdown_theme.get_selected_item().get_string()
+    def set_dropdown_variant(self):
 
-        print("theme selected: ", self._theme_selected)
-
-    def set_dropdown_variant(self):        
+        theme_selected = self._dropdown_theme.get_selected_item().get_string()        
         
         variants = (self._app.project_dir.get_child("source")                  
                   .get_child("themes")
-                  .get_child(self._theme_selected)
+                  .get_child(theme_selected)
                   .get_child("css"))
 
         variant_name = self._app.project_config.theme.data["default_variant"]        
@@ -68,8 +67,6 @@ class PrefTheme(Adw.PreferencesGroup):
         self._dropdown_variant.set_model(model)
 
         self.select_dropdown_item(self._dropdown_variant, variant_name)
-
-        self._theme_variant = self._dropdown_variant.get_selected_item().get_string()
 
     
     def select_dropdown_item(self, dropdown: Gtk.DropDown, value: str):
@@ -82,7 +79,15 @@ class PrefTheme(Adw.PreferencesGroup):
                 return True
                     
         return False
-   
+
+    def get_theme(self):
+
+        site_config = self._app.project_config.site.data
+        theme_config = self._app.project_config.theme.data
+
+        site_config["theme"]["name"] = self._dropdown_theme.get_selected_item().get_string()
+        theme_config["default_variant"] = self._dropdown_variant.get_selected_item().get_string()
+
 
 
     

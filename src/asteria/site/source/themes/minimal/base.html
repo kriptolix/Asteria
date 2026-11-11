@@ -3,7 +3,10 @@
 {% import "partials/_header.html" as header %}
 {% import "partials/_breadcrumbs.html" as breadcrumbsmacros %}
 {% set current_lang = lang if lang is defined else site.default_language %}
-{% set has_sidebar = (show_navigation is defined and show_navigation) or (show_toc is defined and show_toc and page.toc) %}
+{# Theme options come from theme.yaml (defaults live here, not in the build). #}
+{% set theme_css = (page.variant if page is defined and page.variant else None) or theme.default_variant | default("light") %}
+{% set show_toc = page is defined and page.toc_enabled and (theme.sidebar_toc | default(true)) %}
+{% set has_sidebar = (show_navigation is defined and show_navigation) or (show_toc and page.toc) %}
 <!doctype html>
 <html lang="{{ current_lang }}">
 
@@ -75,7 +78,7 @@
         </main>
     </div>
 
-    {{ footer.render_footer(site) }}
+    {{ footer.render_footer(site, theme.known_platforms) }}
 
     <script src="{{ asset('/js/nav.js') }}" defer></script>
 </body>

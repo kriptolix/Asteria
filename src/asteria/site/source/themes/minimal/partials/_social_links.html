@@ -5,10 +5,8 @@
    all when `links` is empty, so a caller never needs its own
    `{% if site.social %}` guard around this. #}
    
-{% macro render_social_links(links) %}
+{% macro render_social_links(links, known_platforms) %}
 {% if links %}
-{# Lista de plataformas que possuem SVG dedicado #}
-{% set known_platforms = ['github', 'twitter', 'linkedin', 'mastodon', 'youtube'] %}
 
 <div class="social-links">
     {% for item in links %}

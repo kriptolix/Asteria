@@ -1,8 +1,26 @@
 # The theme's own namespace exposed to templates as
 # theme.<key>. All keys used in base.html/page.html/etc. must
 # be declared here (even if empty). If there are keys used in the template and
-# are missing here, the build will break.
+# are missing here -the build will break.
 
 sidebar_toc: true
-default_variant: light
-subtitle: ""
+
+theme_variants:
+  - "light"
+  - "dark"
+
+default_variant: "light"
+
+known_platforms:  
+  - "discord" 
+  - "e-mail" 
+  - "facebook" 
+  - "github" 
+  - "gitlab" 
+  - "gmail" 
+  - "instagram" 
+  - "mastodon" 
+  - "rss" 
+  - "telegram" 
+  - "x" 
+  - "youtube"

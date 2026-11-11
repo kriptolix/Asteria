@@ -20,29 +20,20 @@
 from gi.repository import Adw
 from gi.repository import Gtk, Gdk
 
-from .startpage import StartPage
-from .projectpage import ProjectPage
- 
+from .sidebar import Sidebar
+from .content import Content
+
 
 @Gtk.Template(resource_path='/io/github/Kriptolix/Asteria/'
               'src/gtk/ui/MainWindow.ui')
 class MainWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'MainWindow'
 
-    _navigation_view = Gtk.Template.Child()  
+    _sidebar = Gtk.Template.Child()
+    _content = Gtk.Template.Child()     
 
     def __init__(self, app):
-        super().__init__(application=app)
-
-        self.application = app
-
-        self._startpage = StartPage()
-        self._projectpage = ProjectPage()
-        self._navigation_view.add(self._startpage)  
-
-        self._startpage._grid_view.connect("activate", self.go_to_project_page)
-        self._startpage._new_button.connect("clicked", self._new_project)
-        self._startpage._open_button.connect("clicked", self._open_project)
+        super().__init__(application=app)        
 
         css_provider = Gtk.CssProvider()
         css_provider.load_from_resource('/io/github/Kriptolix/'
@@ -52,19 +43,4 @@ class MainWindow(Adw.ApplicationWindow):
                      css_provider,
                      Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)      
             
-        # self.go_to_project_page(None, None)
-        self._projectpage._create_webview()
-
-    def go_back(self, button):
-         self._navigation_view.pop()
-         self._back_button.set_visible(False)
-
-    def go_to_project_page(self, grid, item) -> None:
         
-        self._navigation_view.push(self._projectpage)
-
-    def _new_project(self, button) -> None:
-        self.application.setup_project()
-
-    def _open_project (self, button) -> None:
-        self.application.open_project()

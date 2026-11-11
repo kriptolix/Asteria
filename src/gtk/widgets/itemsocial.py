@@ -22,7 +22,7 @@ class ItemSocial(Adw.ActionRow):
         self._platform_labels = ["Custom", "Discord", "E-mail", "Facebook", "GitHub", "GitLab", "Gmail", 
                                  "Instagram", "Mastodon", "RSS", "Telegram", "X", "Youtube", ]     
         
-        self._platform_values = ["custom", "discord", "email", "facebook", "github", "gitlab", "gmail",
+        self._platform_values = ["custom", "discord", "e-mail", "facebook", "github", "gitlab", "gmail",
                                  "instagram", "mastodon", "rss", "telegram", "x", "youtube",]
 
         self._platform_model = Gtk.StringList.new(self._platform_labels)

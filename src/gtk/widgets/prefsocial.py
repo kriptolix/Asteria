@@ -53,7 +53,8 @@ class PrefSocial(Adw.PreferencesGroup):
 
             row = row.get_next_sibling()
 
-        print(social)
+        self._app.project_config.site.data["social"] = social
+         
 
     def _add_link_button(self, button):
 

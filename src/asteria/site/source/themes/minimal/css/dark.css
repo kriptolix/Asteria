@@ -16,3 +16,5 @@ a.tag, a.category {
 
 .breadcrumbs a { color: var(--color-muted); }
 .post-nav { border-top-color: #2a2a2a; }
+
+.social-link {filter: brightness(0) invert(1);}

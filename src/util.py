@@ -2,13 +2,6 @@ from gi.repository import Gtk, Gio, GLib
 
 import threading
 from typing import Callable
-from enum import Enum
-
-
-class Directory(Enum):
-    PAGES = "pages"
-    POSTS = "posts"
-    COVERS = "covers"
 
 
 def create_action(action_group: Gio.SimpleActionGroup, prefix: str,
@@ -76,19 +69,6 @@ def update_recent_projects(settings: Gio.Settings, path: str) -> None:
     settings.set_strv("recent-projects", recent_projects)
 
 
-class Debouncer:
 
-    def __init__(self, seconds, method):
-        self.seconds = seconds
-        self.method = method
-        self._timer = None
-
-    def update_count(self, *args):
-
-        if self._timer is not None:
-            self._timer.cancel()
-
-        self._timer = threading.Timer(self.seconds, self.method)
-        self._timer.start()
 
 
